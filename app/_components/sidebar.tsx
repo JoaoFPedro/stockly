@@ -1,3 +1,8 @@
+import { RxDashboard } from "react-icons/rx";
+import { Button } from "./ui/button";
+import { RiBox3Line } from "react-icons/ri";
+import { GiShoppingCart } from "react-icons/gi";
+
 const SideBar = () => {
   return (
     <>
@@ -6,10 +11,19 @@ const SideBar = () => {
           <h1 className="text-2xl font-bold text-[#00A180]">STOCKLY</h1>
         </div>
 
-        <div className="flex flex-col gap-8">
-          <button>Dashboard</button>
-          <button>Produtos</button>
-          <button>Vendas</button>
+        <div className="ml-6 flex flex-col gap-4">
+          <Button className="text-muted-foreground justify-start">
+            <RxDashboard />
+            Dashboard
+          </Button>
+          <Button className="text-muted-foreground justify-start">
+            <RiBox3Line />
+            Produtos
+          </Button>
+          <Button className="text-muted-foreground justify-start">
+            <GiShoppingCart />
+            Vendas
+          </Button>
         </div>
       </div>
     </>
