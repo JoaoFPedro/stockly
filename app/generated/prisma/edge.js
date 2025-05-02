@@ -164,7 +164,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -174,11 +174,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://stocklydb_owner:npg_aHBIgPjVA0X1@ep-empty-glitter-a4dczzbi-pooler.us-east-1.aws.neon.tech/stocklydb?sslmode=require"
+        "value": null
       }
     }
   },
