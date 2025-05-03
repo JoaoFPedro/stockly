@@ -2,6 +2,7 @@ import { RxDashboard } from "react-icons/rx";
 import { Button } from "./ui/button";
 import { RiBox3Line } from "react-icons/ri";
 import { GiShoppingCart } from "react-icons/gi";
+import Link from "next/link";
 
 const SideBar = () => {
   return (
@@ -16,10 +17,12 @@ const SideBar = () => {
             <RxDashboard />
             Dashboard
           </Button>
-          <Button className="text-muted-foreground justify-start">
-            <RiBox3Line />
-            Produtos
-          </Button>
+          <Link href="/products">
+            <Button className="text-muted-foreground justify-start">
+              <RiBox3Line />
+              Produtos
+            </Button>
+          </Link>
           <Button className="text-muted-foreground justify-start">
             <GiShoppingCart />
             Vendas
