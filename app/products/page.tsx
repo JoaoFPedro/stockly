@@ -7,10 +7,6 @@ import { getProducts } from "../_data-access/product/get-products";
 
 const ProductsPage = async () => {
   const products = await getProducts();
-  // const plainProducts = prisma.map((products) => ({
-  //   ...products,
-  //   price: products.price.toNumber(), // ou toString() se preferir manter precisão
-  // }));
 
   return (
     <div className="w-full space-y-8 p-8">
