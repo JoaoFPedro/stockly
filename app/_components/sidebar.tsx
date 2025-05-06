@@ -17,7 +17,7 @@ const SideBar = () => {
             <RxDashboard />
             Dashboard
           </Button>
-          <Link href="/products">
+          <Link href="/">
             <Button className="text-muted-foreground justify-start">
               <RiBox3Line />
               Produtos
