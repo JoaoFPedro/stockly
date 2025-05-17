@@ -23,11 +23,12 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { PlusIcon } from "lucide-react";
+import { upsertProduct } from "../_actions/add-transaction";
 
 const formSchema = z.object({
   productName: z.string().min(1, "Nome é obrigatório"),
   productPrice: z.number().positive("Preço deve ser positivo"),
-  productAmount: z.number().positive("Quantidade deve ser positiva"),
+  productAmount: z.coerce.number().positive("Quantidade deve ser positiva"),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -42,13 +43,18 @@ const UpsertProduct = () => {
     },
   });
 
-  const onSubmit = (values: FormSchema) => {
-    console.log(values);
+  const onSubmit = async (data: FormSchema) => {
+    console.log(data);
+    try {
+      await upsertProduct(data);
+    } catch (error) {
+      console.log("error while adding product", error);
+    }
   };
   return (
     <>
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <Button className="hover:bg-ghost bg-green-500">
             <PlusIcon /> Adicionar Produto
           </Button>
@@ -89,6 +95,9 @@ const UpsertProduct = () => {
                         <MoneyInput
                           placeholder="Digite o valor do produto."
                           value={field.value}
+                          onValueChange={({ floatValue }) =>
+                            field.onChange(floatValue)
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -117,7 +126,9 @@ const UpsertProduct = () => {
                     Cancelar
                   </Button>
                 </DialogClose>
-                <Button type="submit">Salvar</Button>
+                <Button type="submit" value="outline" className="bg-green-500">
+                  Salvar
+                </Button>
               </form>
             </Form>
           </div>{" "}
