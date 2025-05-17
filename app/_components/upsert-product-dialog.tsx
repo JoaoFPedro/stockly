@@ -53,7 +53,7 @@ const UpsertProduct = () => {
             <PlusIcon /> Adicionar Produto
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="w-[400px]">
           <DialogHeader>
             <DialogTitle>Adicione um produto novo</DialogTitle>
             <DialogDescription>
