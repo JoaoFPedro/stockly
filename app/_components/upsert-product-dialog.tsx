@@ -71,7 +71,7 @@ const UpsertProduct = () => {
                   name="productName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome</FormLabel>
+                      <FormLabel>Nome do Produto</FormLabel>
                       <FormControl>
                         <Input {...field} placeholder="Nome do produto" />
                       </FormControl>
