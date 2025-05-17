@@ -1,17 +1,9 @@
 "use server";
 import { DataTable } from "@/app/_components/ui/data-table";
 import { productsColum } from "./_components/table-columns";
-import { Button } from "@/app/_components/ui/button";
-import { PlusIcon } from "lucide-react";
+
 import { getProducts } from "../_data-access/product/get-products";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../_components/ui/dialog";
+
 import UpsertProduct from "../_components/upsert-product-dialog";
 
 const ProductsPage = async () => {
