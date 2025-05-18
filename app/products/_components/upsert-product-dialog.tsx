@@ -9,10 +9,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { MoneyInput } from "./ui/money-input";
+} from "../../_components/ui/form";
+import { Button } from "../../_components/ui/button";
+import { Input } from "../../_components/ui/input";
+import { MoneyInput } from "../../_components/ui/money-input";
 import {
   Dialog,
   DialogClose,
@@ -21,13 +21,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "../../_components/ui/dialog";
 import { PlusIcon } from "lucide-react";
-import { upsertProduct } from "../_actions/add-transaction";
+import { upsertProduct } from "../../_actions/add-transaction";
 
 const formSchema = z.object({
-  productName: z.string().min(1, "Nome é obrigatório"),
-  productPrice: z.number().positive("Preço deve ser positivo"),
+  productName: z.string().trim().min(1, "Nome é obrigatório"),
+  productPrice: z.number().min(0.01).positive("Preço deve ser positivo"),
   productAmount: z.coerce.number().positive("Quantidade deve ser positiva"),
 });
 
@@ -35,6 +35,7 @@ type FormSchema = z.infer<typeof formSchema>;
 
 const UpsertProduct = () => {
   const form = useForm<FormSchema>({
+    shouldUnregister: true,
     resolver: zodResolver(formSchema),
     defaultValues: {
       productName: "",
@@ -59,6 +60,7 @@ const UpsertProduct = () => {
             <PlusIcon /> Adicionar Produto
           </Button>
         </DialogTrigger>
+
         <DialogContent className="w-[400px]">
           <DialogHeader>
             <DialogTitle>Adicione um produto novo</DialogTitle>
@@ -122,7 +124,7 @@ const UpsertProduct = () => {
                   )}
                 />
                 <DialogClose asChild>
-                  <Button variant="outline" className="mr-3">
+                  <Button variant="outline" className="mr-3" type="reset">
                     Cancelar
                   </Button>
                 </DialogClose>

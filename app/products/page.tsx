@@ -4,7 +4,7 @@ import { productsColum } from "./_components/table-columns";
 
 import { getProducts } from "../_data-access/product/get-products";
 
-import UpsertProduct from "../_components/upsert-product-dialog";
+import UpsertProduct from "./_components/upsert-product-dialog";
 
 const ProductsPage = async () => {
   const products = await getProducts();
