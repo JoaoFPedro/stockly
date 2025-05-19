@@ -1,5 +1,4 @@
 "use client";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -22,21 +21,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../_components/ui/dialog";
-import { PlusIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon } from "lucide-react";
 import { upsertProduct } from "../../_actions/add-transaction";
+import { useState } from "react";
+import {
+  upsertProductSchema,
+  UpsertProductSchema,
+} from "@/app/_actions/add-transaction/schema";
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, "Nome é obrigatório"),
-  price: z.number().min(0.01).positive("Preço deve ser positivo"),
-  stock: z.coerce.number().positive("Quantidade deve ser positiva"),
-});
+// const formSchema = z.object({
+//   name: z.string().trim().min(1, "Nome é obrigatório"),
+//   price: z.number().min(0.01).positive("Preço deve ser positivo"),
+//   stock: z.coerce.number().positive("Quantidade deve ser positiva"),
+// });
 
-type FormSchema = z.infer<typeof formSchema>;
+// type FormSchema = z.infer<typeof formSchema>;
 
 const UpsertProduct = () => {
-  const form = useForm<FormSchema>({
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+  const form = useForm<UpsertProductSchema>({
     shouldUnregister: true,
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(upsertProductSchema),
     defaultValues: {
       name: "",
       price: 0,
@@ -44,17 +49,18 @@ const UpsertProduct = () => {
     },
   });
 
-  const onSubmit = async (data: FormSchema) => {
+  const onSubmit = async (data: UpsertProductSchema) => {
     console.log(data);
     try {
       await upsertProduct(data);
+      setDialogIsOpen(false);
     } catch (error) {
       console.log("error while adding product", error);
     }
   };
   return (
     <>
-      <Dialog>
+      <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
         <DialogTrigger asChild>
           <Button className="hover:bg-ghost bg-green-500">
             <PlusIcon /> Adicionar Produto
@@ -117,6 +123,7 @@ const UpsertProduct = () => {
                           {...field}
                           placeholder="Quantidade"
                           type="number"
+                          value={field.value ?? 1}
                         />
                       </FormControl>
                       <FormMessage />
@@ -128,7 +135,15 @@ const UpsertProduct = () => {
                     Cancelar
                   </Button>
                 </DialogClose>
-                <Button type="submit" value="outline" className="bg-green-500">
+                <Button
+                  type="submit"
+                  value="outline"
+                  className="bg-green-500"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting && (
+                    <Loader2Icon className="animate-spin" />
+                  )}
                   Salvar
                 </Button>
               </form>
