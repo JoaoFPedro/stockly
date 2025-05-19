@@ -26,9 +26,9 @@ import { PlusIcon } from "lucide-react";
 import { upsertProduct } from "../../_actions/add-transaction";
 
 const formSchema = z.object({
-  productName: z.string().trim().min(1, "Nome é obrigatório"),
-  productPrice: z.number().min(0.01).positive("Preço deve ser positivo"),
-  productAmount: z.coerce.number().positive("Quantidade deve ser positiva"),
+  name: z.string().trim().min(1, "Nome é obrigatório"),
+  price: z.number().min(0.01).positive("Preço deve ser positivo"),
+  stock: z.coerce.number().positive("Quantidade deve ser positiva"),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -38,9 +38,9 @@ const UpsertProduct = () => {
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
     defaultValues: {
-      productName: "",
-      productPrice: 0,
-      productAmount: 1,
+      name: "",
+      price: 0,
+      stock: 1,
     },
   });
 
@@ -76,7 +76,7 @@ const UpsertProduct = () => {
               >
                 <FormField
                   control={form.control}
-                  name="productName"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nome do Produto</FormLabel>
@@ -89,7 +89,7 @@ const UpsertProduct = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="productPrice"
+                  name="price"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Preço do Produto</FormLabel>
@@ -108,7 +108,7 @@ const UpsertProduct = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="productAmount"
+                  name="stock"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Quantidade</FormLabel>

@@ -1,18 +1,20 @@
 "use server";
 import { db } from "@/app/_lib/prisma";
+import { revalidatePath } from "next/cache";
 
 type FormValues = {
-  productName: string;
-  productPrice: number;
-  productAmount: number;
+  name: string;
+  price: number;
+  stock: number;
 };
 
-export const upsertProduct = async (params: FormValues) => {
+export const upsertProduct = async ({ name, price, stock }: FormValues) => {
   await db.product.create({
     data: {
-      name: params.productName,
-      price: params.productPrice,
-      stock: params.productAmount,
+      name,
+      price,
+      stock,
     },
   });
+  revalidatePath("/");
 };
