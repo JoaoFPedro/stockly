@@ -8,13 +8,9 @@ type FormValues = {
   stock: number;
 };
 
-export const upsertProduct = async ({ name, price, stock }: FormValues) => {
+export const upsertProduct = async (data: FormValues) => {
   await db.product.create({
-    data: {
-      name,
-      price,
-      stock,
-    },
+    data,
   });
   revalidatePath("/");
 };
