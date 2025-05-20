@@ -22,12 +22,12 @@ import {
   DialogTrigger,
 } from "../../_components/ui/dialog";
 import { Loader2Icon, PlusIcon } from "lucide-react";
-import { upsertProduct } from "../../_actions/add-transaction";
+import { upsertProduct } from "../../_actions/add-products";
 import { useState } from "react";
 import {
   upsertProductSchema,
   UpsertProductSchema,
-} from "@/app/_actions/add-transaction/schema";
+} from "@/app/_actions/add-products/schema";
 
 // const formSchema = z.object({
 //   name: z.string().trim().min(1, "Nome é obrigatório"),

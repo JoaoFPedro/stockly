@@ -41,7 +41,7 @@ export const productsColum: ColumnDef<Product>[] = [
     cell: ({ row: { original: products } }) => {
       return (
         <div className="flex space-x-1">
-          <DeleteProductButton products={products}></DeleteProductButton>
+          <DeleteProductButton product={products}></DeleteProductButton>
         </div>
       );
     },
