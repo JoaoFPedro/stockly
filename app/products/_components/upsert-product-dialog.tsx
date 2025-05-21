@@ -19,11 +19,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../../_components/ui/dialog";
-import { Loader2Icon, PlusIcon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 import { upsertProduct } from "../../_actions/add-products";
-import { useState } from "react";
 import {
   upsertProductSchema,
   UpsertProductSchema,
@@ -37,12 +35,22 @@ import {
 
 // type FormSchema = z.infer<typeof formSchema>;
 
-const UpsertProduct = () => {
-  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+interface UpsertProductProps {
+  productId?: string;
+  isOpen?: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
+  defaultValue?: UpsertProductSchema;
+}
+const UpsertProduct = ({
+  productId,
+  isOpen,
+  setIsOpen,
+  defaultValue,
+}: UpsertProductProps) => {
   const form = useForm<UpsertProductSchema>({
     shouldUnregister: true,
     resolver: zodResolver(upsertProductSchema),
-    defaultValues: {
+    defaultValues: defaultValue ?? {
       name: "",
       price: 0,
       stock: 1,
@@ -52,21 +60,16 @@ const UpsertProduct = () => {
   const onSubmit = async (data: UpsertProductSchema) => {
     console.log(data);
     try {
-      await upsertProduct(data);
-      setDialogIsOpen(false);
+      await upsertProduct({ ...data, id: productId });
+
+      setIsOpen?.(false);
     } catch (error) {
       console.log("error while adding product", error);
     }
   };
   return (
     <>
-      <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
-        <DialogTrigger asChild>
-          <Button className="hover:bg-ghost bg-green-500">
-            <PlusIcon /> Adicionar Produto
-          </Button>
-        </DialogTrigger>
-
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="w-[400px]">
           <DialogHeader>
             <DialogTitle>Adicione um produto novo</DialogTitle>
