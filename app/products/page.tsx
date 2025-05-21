@@ -4,7 +4,7 @@ import { productsColum } from "./_components/table-columns";
 
 import { getProducts } from "../_data-access/product/get-products";
 
-import UpsertProduct from "./_components/upsert-product-dialog";
+import AddProductButton from "./_components/AddProductButton";
 
 const ProductsPage = async () => {
   const products = await getProducts();
@@ -15,7 +15,7 @@ const ProductsPage = async () => {
         <h1 className="py-6 text-sm font-bold text-[#00A180]">Produtos</h1>
         <div className="flex justify-between">
           <h1 className="font-bold">Gestão de produtos</h1>
-          <UpsertProduct />
+          <AddProductButton />
         </div>
       </div>
       <DataTable
