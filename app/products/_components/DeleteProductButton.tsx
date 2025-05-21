@@ -25,7 +25,7 @@ const DeleteProductButton = ({ product }: DeleteProductButtonProps) => {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="ghost">
+          <Button variant="ghost" className="cursor-pointer">
             <Trash2Icon />
           </Button>
         </DialogTrigger>
