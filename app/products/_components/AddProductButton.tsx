@@ -8,7 +8,10 @@ const AddProductButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>
+      <Button
+        className="hover:bg-ghost bg-green-500"
+        onClick={() => setIsOpen(true)}
+      >
         <PlusIcon />
         Adicionar Produto
       </Button>
