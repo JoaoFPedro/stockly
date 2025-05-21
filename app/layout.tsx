@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SideBar from "./_components/sidebar";
 import { Inter } from "next/font/google";
+import { Toaster } from "./_components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <div className="flex gap-8 h-full">
+        <div className="flex h-full gap-8">
           <SideBar />
           {children}
+          <Toaster />
         </div>
       </body>
     </html>
