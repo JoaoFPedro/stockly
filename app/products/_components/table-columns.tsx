@@ -3,17 +3,21 @@
 import { Product } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import DeleteProductButton from "./DeleteProductButton";
+import EditTransactionButton from "./EditTransactionButton";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
+interface TableColumsProps extends Product {
+  status: string;
+}
 const getStatusLabel = (status: string) => {
   if (status === "IN_STOCK") {
     return "Em estoque";
   }
 };
 
-export const productsColum: ColumnDef<Product>[] = [
+export const productsColum: ColumnDef<TableColumsProps>[] = [
   {
     accessorKey: "name",
     header: "Produtos",
@@ -41,7 +45,8 @@ export const productsColum: ColumnDef<Product>[] = [
     cell: ({ row: { original: products } }) => {
       return (
         <div className="flex space-x-1">
-          <DeleteProductButton product={products}></DeleteProductButton>
+          <EditTransactionButton product={products} />
+          <DeleteProductButton product={products} />
         </div>
       );
     },
