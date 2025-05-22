@@ -67,14 +67,19 @@ const UpsertProduct = ({
       console.log("error while adding product", error);
     }
   };
+  const isDefaultValues = defaultValue;
   return (
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="w-[400px]">
           <DialogHeader>
-            <DialogTitle>Adicione um produto novo</DialogTitle>
+            <DialogTitle>
+              {isDefaultValues ? "Editar Produto" : "Adicionar Produto"}
+            </DialogTitle>
             <DialogDescription>
-              Insira as informações para add um produto novo
+              {isDefaultValues
+                ? ""
+                : "Insira as informações para adicionar um produto."}
             </DialogDescription>
           </DialogHeader>
           <div className="w-[350px]">
