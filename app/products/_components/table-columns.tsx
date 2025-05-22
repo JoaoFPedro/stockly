@@ -41,13 +41,14 @@ export const productsColum: ColumnDef<TableColumsProps>[] = [
   },
   {
     accessorKey: "actions",
-    header: "",
+    header: "Ações",
+
     cell: ({ row: { original: products } }) => {
       return (
-        <div className="flex space-x-1">
+        <>
           <EditTransactionButton product={products} />
           <DeleteProductButton product={products} />
-        </div>
+        </>
       );
     },
   },
