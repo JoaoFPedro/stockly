@@ -36,13 +36,11 @@ import {
 // type FormSchema = z.infer<typeof formSchema>;
 
 interface UpsertProductProps {
-  productId?: string;
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
   defaultValue?: UpsertProductSchema;
 }
 const UpsertProduct = ({
-  productId,
   isOpen,
   setIsOpen,
   defaultValue,
@@ -60,7 +58,7 @@ const UpsertProduct = ({
   const onSubmit = async (data: UpsertProductSchema) => {
     console.log(data);
     try {
-      await upsertProduct({ ...data, id: productId });
+      await upsertProduct({ ...data, id: defaultValue?.id });
 
       setIsOpen?.(false);
     } catch (error) {

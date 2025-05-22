@@ -18,7 +18,6 @@ const EditTransactionButton = ({ product }: EditTransactionButtonProps) => {
       </Button>
 
       <UpsertProduct
-        productId={product.id}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         defaultValue={{

@@ -8,19 +8,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/app/_components/ui/dialog";
-import { Product } from "@/app/generated/prisma/client";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
 interface DeleteProductButtonProps {
-  product: Product;
+  productId: string;
 }
 
-const DeleteProductButton = ({ product }: DeleteProductButtonProps) => {
+const DeleteProductButton = ({ productId }: DeleteProductButtonProps) => {
   const handleDeleteButton = async () => {
-    console.log("PRODUCTS*****", product);
-    await deleteProduct({ id: product.id });
+    console.log("PRODUCTS*****", productId);
+    await deleteProduct({ id: productId });
     toast.success("Produto excluido com sucesso");
   };
   return (

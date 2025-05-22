@@ -47,7 +47,7 @@ export const productsColum: ColumnDef<TableColumsProps>[] = [
       return (
         <>
           <EditTransactionButton product={products} />
-          <DeleteProductButton product={products} />
+          <DeleteProductButton productId={products.id} />
         </>
       );
     },
