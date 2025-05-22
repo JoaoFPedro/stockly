@@ -24,7 +24,15 @@ export const productsColum: ColumnDef<TableColumsProps>[] = [
   },
   {
     accessorKey: "price",
-    header: "Valor unitário",
+    header: "Valor unitário(R$)",
+    cell: ({ row: { original: product } }) => {
+      const amount = Number(product.price);
+      const formattedAmount = amount.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+      return formattedAmount;
+    },
   },
   {
     accessorKey: "stock",
