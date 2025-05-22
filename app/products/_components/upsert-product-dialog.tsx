@@ -67,7 +67,7 @@ const UpsertProduct = ({
       console.log("error while adding product", error);
     }
   };
-  const isDefaultValues = defaultValue;
+  const isDefaultValues = !!defaultValue;
   return (
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
