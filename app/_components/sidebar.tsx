@@ -23,10 +23,12 @@ const SideBar = () => {
               Produtos
             </Button>
           </Link>
-          <Button className="text-muted-foreground justify-start">
-            <GiShoppingCart />
-            Vendas
-          </Button>
+          <Link href="/sales">
+            <Button className="text-muted-foreground justify-start">
+              <GiShoppingCart />
+              Vendas
+            </Button>
+          </Link>
         </div>
       </div>
     </>
