@@ -8,7 +8,6 @@ import AddProductButton from "./_components/AddProductButton";
 
 const ProductsPage = async () => {
   const products = await getProducts();
-
   return (
     <div className="w-full space-y-8 p-8">
       <div className="w-full">
