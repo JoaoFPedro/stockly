@@ -1,5 +1,5 @@
-import { Button } from "../_components/ui/button";
 import { DataTable } from "../_components/ui/data-table";
+import SaleButton from "./_components/add-sale-button";
 import { SalesColum } from "./_components/table-columns";
 import { salesMock } from "./mock/salesMock";
 
@@ -12,7 +12,7 @@ const SalesPage = () => {
         <div className="flex justify-between">
           <h1 className="font-bold">Gestão de Vendas</h1>
           {/* <AddProductButton /> */}
-          <Button>+ Adicionar Venda</Button>
+          <SaleButton />
         </div>
       </div>
       <DataTable
