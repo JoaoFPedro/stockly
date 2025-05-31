@@ -64,8 +64,8 @@ const UpsertSaleDialog = ({ products }: SalesFormProps) => {
               control={form.control}
               name="productId"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome do Produto</FormLabel>
+                <FormItem className="flex">
+                  <FormLabel>Nome do Produto:</FormLabel>
                   <FormControl>
                     <ComboboxSales
                       {...field}
@@ -81,21 +81,10 @@ const UpsertSaleDialog = ({ products }: SalesFormProps) => {
               control={form.control}
               name="quantity"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantidade do Produto</FormLabel>
+                <FormItem className="flex">
+                  <FormLabel>Quantidade:</FormLabel>
                   <FormControl>
-                    {/* <MoneyInput
-                      placeholder="Digite o valor do produto."
-                      value={field.value}
-                      onValueChange={({ floatValue }) =>
-                        field.onChange(floatValue)
-                      }
-                    /> */}
-                    <Input
-                      placeholder="Digite a quantidade"
-                      {...field}
-                      type="number"
-                    />
+                    <Input {...field} type="number" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
