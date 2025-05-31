@@ -1,6 +1,8 @@
+"use client";
 import { Button } from "@/app/_components/ui/button";
+import { useForm } from "react-hook-form";
+
 import {
-  Sheet,
   SheetClose,
   SheetContent,
   SheetDescription,
@@ -8,16 +10,41 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/app/_components/ui/sheet";
-import { ComboboxSales } from "./combobox-sales";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/app/_components/ui/form";
+import { Input } from "@/app/_components/ui/input";
+
+import {
+  UpsertSaleSchema,
+  upsertSalesSchema,
+} from "@/app/_actions/get-products/schema";
+import { ComboboxOption, ComboboxSales } from "./combobox-sales";
 
 interface SalesFormProps {
-  isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
+  products: ComboboxOption[];
 }
 
-const UpsertSaleDialog = ({ isOpen, setIsOpen }: SalesFormProps) => {
+const UpsertSaleDialog = ({ products }: SalesFormProps) => {
+  console.log("DKSOPAKDPOAPDKOA**", products);
+  const form = useForm<UpsertSaleSchema>({
+    shouldUnregister: true,
+    resolver: zodResolver(upsertSalesSchema),
+    defaultValues: {
+      productId: "",
+      quantity: 1,
+    },
+  });
   const onSubmit = () => {
-    setIsOpen?.(false);
+    // setIsOpen?.(false);
   };
   return (
     <SheetContent>
@@ -31,7 +58,68 @@ const UpsertSaleDialog = ({ isOpen, setIsOpen }: SalesFormProps) => {
         <div className="">
           <h1>Produtos</h1>
         </div>
-        <ComboboxSales />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="productId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome do Produto</FormLabel>
+                  <FormControl>
+                    <ComboboxSales
+                      {...field}
+                      placeholder="Escolha o produto"
+                      options={products}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantidade do Produto</FormLabel>
+                  <FormControl>
+                    {/* <MoneyInput
+                      placeholder="Digite o valor do produto."
+                      value={field.value}
+                      onValueChange={({ floatValue }) =>
+                        field.onChange(floatValue)
+                      }
+                    /> */}
+                    <Input
+                      placeholder="Digite a quantidade"
+                      {...field}
+                      type="number"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/*                 
+                <DialogClose asChild>
+                  <Button variant="outline" className="mr-3" type="reset">
+                    Cancelar
+                  </Button>
+                </DialogClose>
+                <Button
+                  type="submit"
+                  value="outline"
+                  className="bg-green-500"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting && (
+                    <Loader2Icon className="animate-spin" />
+                  )}
+                  Salvar
+                </Button> */}
+          </form>
+        </Form>
       </div>
       <SheetFooter>
         <div className="flex w-full gap-3">
