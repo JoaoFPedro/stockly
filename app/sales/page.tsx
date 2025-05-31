@@ -1,10 +1,16 @@
+import { Button } from "../_components/ui/button";
 import { DataTable } from "../_components/ui/data-table";
-import SaleButton from "./_components/add-sale-button";
+import { Sheet, SheetTrigger } from "../_components/ui/sheet";
+import { getProducts } from "../_data-access/product/get-products";
 import { SalesColum } from "./_components/table-columns";
+import UpsertSaleDialog from "./_components/upsert-sale-dialog";
 import { salesMock } from "./mock/salesMock";
 
-const SalesPage = () => {
+const SalesPage = async () => {
   const mockTest = salesMock;
+  const products = await getProducts();
+
+  console.log("PRODUCTS****", products);
   return (
     <div className="w-full space-y-8 p-8">
       <div className="w-full">
@@ -12,7 +18,13 @@ const SalesPage = () => {
         <div className="flex justify-between">
           <h1 className="font-bold">Gestão de Vendas</h1>
           {/* <AddProductButton /> */}
-          <SaleButton />
+          {/* <SaleButton /> */}
+          <Sheet>
+            <SheetTrigger asChild className="hover:bg-ghost bg-green-500">
+              <Button>Adicionar venda </Button>
+            </SheetTrigger>
+            <UpsertSaleDialog products={products} />
+          </Sheet>
         </div>
       </div>
       <DataTable
