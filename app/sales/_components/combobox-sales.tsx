@@ -40,8 +40,18 @@ const frameworks = [
     label: "Astro",
   },
 ];
+export interface ComboboxOption {
+  value: string;
+  label: string;
+}
+interface ComboboxProps {
+  options: ComboboxOption[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}
 
-export function ComboboxSales() {
+export function ComboboxSales({}: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
