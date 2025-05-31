@@ -18,7 +18,6 @@ interface DeleteProductButtonProps {
 
 const DeleteProductButton = ({ productId }: DeleteProductButtonProps) => {
   const handleDeleteButton = async () => {
-    console.log("PRODUCTS*****", productId);
     await deleteProduct({ id: productId });
     toast.success("Produto excluido com sucesso");
   };
