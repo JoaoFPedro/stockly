@@ -12,7 +12,6 @@ interface UpserTransactionProps {
 
 export const upsertProduct = async (params: UpserTransactionProps) => {
   upsertProductSchema.parse(params);
-  console.log("PRODUCTS****", params);
   await db.product.upsert({
     update: params,
     create: params,
