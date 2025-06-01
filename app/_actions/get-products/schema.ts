@@ -1,11 +1,8 @@
 import { z } from "zod";
 
 export const upsertSalesSchema = z.object({
-  productId: z.string().uuid().optional(),
-
-  quantity: z.number().min(0.01, {
-    message: "A quantidade é obrigatória.",
-  }),
+  productId: z.string().uuid({ message: "O produto é obrigatório" }),
+  quantity: z.number().int().positive(),
 });
 
 export type UpsertSaleSchema = z.infer<typeof upsertSalesSchema>;
