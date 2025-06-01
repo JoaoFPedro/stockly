@@ -26,15 +26,36 @@ import {
   UpsertSaleSchema,
   upsertSalesSchema,
 } from "@/app/_actions/get-products/schema";
-import { ComboboxOption, ComboboxSales } from "./combobox-sales";
+import { ComboboxOption, ComboboxSales } from "../../_components/ui/combobox";
+import { useState } from "react";
+import { Product } from "@/app/generated/prisma";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/app/_components/ui/table";
 
 interface SalesFormProps {
   setIsOpen?: (isOpen: boolean) => void;
-  products: ComboboxOption[];
+  productOptions: ComboboxOption[];
+  products: Product[];
 }
-
-const UpsertSaleDialog = ({ products }: SalesFormProps) => {
-  console.log("DKSOPAKDPOAPDKOA**", products);
+interface SelectedProducts {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+}
+const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>(
+    [],
+  );
+  console.log("PRODUCTS****", products);
   const form = useForm<UpsertSaleSchema>({
     shouldUnregister: true,
     resolver: zodResolver(upsertSalesSchema),
@@ -43,92 +64,133 @@ const UpsertSaleDialog = ({ products }: SalesFormProps) => {
       quantity: 1,
     },
   });
-  const onSubmit = () => {
+  const onSubmit = async (data: UpsertSaleSchema) => {
+    // console.log("alalalalalallalala", data);
     // setIsOpen?.(false);
+    const selectedProduct = products.find(
+      (product) => product.id === data.productId,
+    );
+    if (!selectedProduct) return;
+    setSelectedProducts((currentProducts) => {
+      const existingProducts = currentProducts.find(
+        (product) => product.id === selectedProduct.id,
+      );
+
+      if (existingProducts) {
+        return currentProducts.map((product) => {
+          if (product.id === selectedProduct.id) {
+            return {
+              ...product,
+              quantity: product.quantity + data.quantity,
+            };
+          }
+          return product;
+        });
+      }
+      return [
+        ...currentProducts,
+        {
+          ...selectedProduct,
+          quantity: data.quantity,
+          price: Number(selectedProduct.price),
+        },
+      ];
+    });
+    form.reset();
   };
   return (
-    <SheetContent>
+    <SheetContent className="!max-w-[700px]">
       <SheetHeader>
         <SheetTitle>Adicionar Venda</SheetTitle>
         <SheetDescription>
           Insira as informações de venda abaixo.
         </SheetDescription>
       </SheetHeader>
-      <div className="p-4">
-        <div className="">
-          <h1>Produtos</h1>
-        </div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="productId"
-              render={({ field }) => (
-                <FormItem className="flex">
-                  <FormLabel>Nome do Produto:</FormLabel>
-                  <FormControl>
-                    <ComboboxSales
-                      {...field}
-                      placeholder="Escolha o produto"
-                      options={products}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem className="flex">
-                  <FormLabel>Quantidade:</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="number" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/*                 
-                <DialogClose asChild>
-                  <Button variant="outline" className="mr-3" type="reset">
-                    Cancelar
-                  </Button>
-                </DialogClose>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-4">
+          <FormField
+            control={form.control}
+            name="productId"
+            render={({ field }) => (
+              <FormItem className="flex">
+                <FormLabel>Nome do Produto:</FormLabel>
+                <FormControl>
+                  <ComboboxSales
+                    {...field}
+                    placeholder="Escolha o produto"
+                    options={productOptions}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="quantity"
+            render={({ field }) => (
+              <FormItem className="flex">
+                <FormLabel>Quantidade:</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="number"
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <SheetFooter>
+            <div className="flex w-full gap-3">
+              <SheetClose asChild>
                 <Button
-                  type="submit"
-                  value="outline"
-                  className="bg-green-500"
-                  disabled={form.formState.isSubmitting}
+                  variant="outline"
+                  type="reset"
+                  className="bg-muted w-1/2 border border-gray-300 text-black hover:bg-gray-100"
                 >
-                  {form.formState.isSubmitting && (
-                    <Loader2Icon className="animate-spin" />
-                  )}
-                  Salvar
-                </Button> */}
-          </form>
-        </Form>
-      </div>
-      <SheetFooter>
-        <div className="flex w-full gap-3">
-          <SheetClose asChild>
-            <Button
-              variant="outline"
-              type="reset"
-              className="bg-muted w-1/2 border border-gray-300 text-black hover:bg-gray-100"
-            >
-              Cancelar
-            </Button>
-          </SheetClose>
-          <Button
-            type="submit"
-            className="w-1/2 bg-green-500 text-white hover:bg-green-600"
-          >
-            Finalizar
-          </Button>
-        </div>
-      </SheetFooter>
+                  Cancelar
+                </Button>
+              </SheetClose>
+              <Button
+                type="submit"
+                className="w-1/2 bg-green-500 text-white hover:bg-green-600"
+              >
+                Finalizar
+              </Button>
+            </div>
+          </SheetFooter>
+        </form>
+      </Form>
+      <Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Produto</TableHead>
+            <TableHead>Preço</TableHead>
+            <TableHead>Quantidade</TableHead>
+            <TableHead>Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {selectedProducts.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell className="font-medium">{product.name}</TableCell>
+              <TableCell>{Number(product.price)}</TableCell>
+              <TableCell className="font-medium">{product.quantity}</TableCell>
+              <TableCell className="font-medium">{product.price}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell className="text-right">$2,500.00</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
     </SheetContent>
   );
 };
