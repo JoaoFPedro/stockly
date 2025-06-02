@@ -40,6 +40,7 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { formatCurrency } from "@/app/_helpers/format-currency";
+import { TrashIcon } from "lucide-react";
 
 interface SalesFormProps {
   setIsOpen?: (isOpen: boolean) => void;
@@ -65,7 +66,7 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
       quantity: 1,
     },
   });
-  const onSubmit = async (data: UpsertSaleSchema) => {
+  const onSubmit = async (data: any) => {
     // console.log("alalalalalallalala", data);
     // setIsOpen?.(false);
     const selectedProduct = products.find(
@@ -98,6 +99,12 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
       ];
     });
     form.reset();
+  };
+  const handleDelateProductTableButton = (data: SelectedProducts) => {
+    setSelectedProducts((prev) =>
+      prev.filter((produto) => produto.id !== data.id),
+    );
+    return console.log("TABLEPRODUCTS", data);
   };
 
   const productTotal = useMemo(() => {
@@ -180,18 +187,24 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
               <TableHead>Preço</TableHead>
               <TableHead>Quantidade</TableHead>
               <TableHead>Total</TableHead>
+              <TableHead>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {selectedProducts.map((product) => (
               <TableRow key={product.id}>
-                <TableCell className="font-medium">{product.name}</TableCell>
+                <TableCell>{product.name}</TableCell>
                 <TableCell>{Number(product.price)}</TableCell>
-                <TableCell className="font-medium">
-                  {product.quantity}
-                </TableCell>
-                <TableCell className="font-medium">
+                <TableCell>{product.quantity}</TableCell>
+                <TableCell>
                   {formatCurrency(product.price * product.quantity)}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => handleDelateProductTableButton(product)}
+                  >
+                    <TrashIcon />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
