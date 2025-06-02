@@ -27,7 +27,7 @@ import {
   upsertSalesSchema,
 } from "@/app/_actions/get-products/schema";
 import { ComboboxOption, ComboboxSales } from "../../_components/ui/combobox";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Product } from "@/app/generated/prisma";
 import {
   Table,
@@ -39,6 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table";
+import { formatCurrency } from "@/app/_helpers/format-currency";
 
 interface SalesFormProps {
   setIsOpen?: (isOpen: boolean) => void;
@@ -92,12 +93,18 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
         {
           ...selectedProduct,
           quantity: data.quantity,
-          price: Number(selectedProduct.price),
+          price: Number(selectedProduct.price) * data.quantity,
         },
       ];
     });
     form.reset();
   };
+
+  const productTotal = useMemo(() => {
+    return selectedProducts.reduce((acc, product) => {
+      return acc + product.price * product.quantity;
+    }, 0);
+  }, [selectedProducts]);
   return (
     <SheetContent className="!max-w-[700px]">
       <SheetHeader>
@@ -164,33 +171,39 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
           </SheetFooter>
         </form>
       </Form>
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Produto</TableHead>
-            <TableHead>Preço</TableHead>
-            <TableHead>Quantidade</TableHead>
-            <TableHead>Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {selectedProducts.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell className="font-medium">{product.name}</TableCell>
-              <TableCell>{Number(product.price)}</TableCell>
-              <TableCell className="font-medium">{product.quantity}</TableCell>
-              <TableCell className="font-medium">{product.price}</TableCell>
+      <div className="p-4">
+        <Table>
+          <TableCaption>Lista de produtos adicionados à venda.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Produto</TableHead>
+              <TableHead>Preço</TableHead>
+              <TableHead>Quantidade</TableHead>
+              <TableHead>Total</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {selectedProducts.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell className="font-medium">{product.name}</TableCell>
+                <TableCell>{Number(product.price)}</TableCell>
+                <TableCell className="font-medium">
+                  {product.quantity}
+                </TableCell>
+                <TableCell className="font-medium">
+                  {formatCurrency(product.price * product.quantity)}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell>{formatCurrency(productTotal)}</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
     </SheetContent>
   );
 };
