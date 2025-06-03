@@ -26,7 +26,7 @@ import { Input } from "@/app/_components/ui/input";
 import {
   UpsertSaleSchema,
   upsertSalesSchema,
-} from "@/app/_actions/get-products/schema";
+} from "@/app/_actions/sales/add-sales/schema";
 import { ComboboxOption, ComboboxSales } from "../../_components/ui/combobox";
 import { useMemo, useState } from "react";
 import { Product } from "@/app/generated/prisma";
