@@ -3,6 +3,7 @@ import { Button } from "@/app/_components/ui/button";
 import { useForm } from "react-hook-form";
 
 import {
+  Sheet,
   SheetClose,
   SheetContent,
   SheetDescription,
@@ -43,9 +44,10 @@ import { formatCurrency } from "@/app/_helpers/format-currency";
 import { TrashIcon } from "lucide-react";
 
 interface SalesFormProps {
-  setIsOpen?: (isOpen: boolean) => void;
   productOptions: ComboboxOption[];
   products: Product[];
+  isOpen?: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 interface SelectedProducts {
   id: string;
@@ -53,11 +55,15 @@ interface SelectedProducts {
   quantity: number;
   price: number;
 }
-const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
+const UpsertSaleDialog = ({
+  productOptions,
+  products,
+  isOpen,
+  setIsOpen,
+}: SalesFormProps) => {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>(
     [],
   );
-  console.log("PRODUCTS****", products);
   const form = useForm<UpsertSaleSchema>({
     shouldUnregister: true,
     resolver: zodResolver(upsertSalesSchema),
@@ -66,7 +72,7 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
       quantity: 1,
     },
   });
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UpsertSaleSchema) => {
     const selectedProduct = products.find(
       (product) => product.id === data.productId,
     );
@@ -120,7 +126,9 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
     setSelectedProducts((prev) =>
       prev.filter((produto) => produto.id !== data.id),
     );
-    return console.log("TABLEPRODUCTS", data);
+  };
+  const handleCloseDialog = () => {
+    setIsOpen(false);
   };
 
   const productTotal = useMemo(() => {
@@ -129,51 +137,54 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
     }, 0);
   }, [selectedProducts]);
   return (
-    <SheetContent className="!max-w-[700px]">
-      <SheetHeader>
-        <SheetTitle>Adicionar Venda</SheetTitle>
-        <SheetDescription>
-          Insira as informações de venda abaixo.
-        </SheetDescription>
-      </SheetHeader>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetContent className="!max-w-[700px]">
+        <SheetHeader>
+          <SheetTitle>Adicionar Venda</SheetTitle>
+          <SheetDescription>
+            Insira as informações de venda abaixo.
+          </SheetDescription>
+        </SheetHeader>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-4">
-          <FormField
-            control={form.control}
-            name="productId"
-            render={({ field }) => (
-              <FormItem className="flex">
-                <FormLabel>Nome do Produto:</FormLabel>
-                <FormControl>
-                  <ComboboxSales
-                    {...field}
-                    placeholder="Escolha o produto"
-                    options={productOptions}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="quantity"
-            render={({ field }) => (
-              <FormItem className="flex">
-                <FormLabel>Quantidade:</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <SheetFooter>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 p-4"
+          >
+            <FormField
+              control={form.control}
+              name="productId"
+              render={({ field }) => (
+                <FormItem className="flex">
+                  <FormLabel>Nome do Produto:</FormLabel>
+                  <FormControl>
+                    <ComboboxSales
+                      {...field}
+                      placeholder="Escolha o produto"
+                      options={productOptions}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem className="flex">
+                  <FormLabel>Quantidade:</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="flex w-full gap-3">
               <SheetClose asChild>
                 <Button
@@ -188,52 +199,57 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
                 type="submit"
                 className="w-1/2 bg-green-500 text-white hover:bg-green-600"
               >
-                Finalizar
+                Adicionar venda
               </Button>
             </div>
-          </SheetFooter>
-        </form>
-      </Form>
-      <div className="p-4">
-        <Table>
-          <TableCaption>Lista de produtos adicionados à venda.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Produto</TableHead>
-              <TableHead>Preço</TableHead>
-              <TableHead>Quantidade</TableHead>
-              <TableHead>Total</TableHead>
-              <TableHead>Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {selectedProducts.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{Number(product.price)}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell>
-                  {formatCurrency(product.price * product.quantity)}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    onClick={() => handleDelateProductTableButton(product)}
-                  >
-                    <TrashIcon />
-                  </Button>
-                </TableCell>
+          </form>
+        </Form>
+        <div className="p-4">
+          <Table>
+            <TableCaption>Lista de produtos adicionados à venda.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Produto</TableHead>
+                <TableHead>Preço</TableHead>
+                <TableHead>Quantidade</TableHead>
+                <TableHead>Total</TableHead>
+                <TableHead>Ações</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={3}>Total</TableCell>
-              <TableCell>{formatCurrency(productTotal)}</TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </div>
-    </SheetContent>
+            </TableHeader>
+            <TableBody>
+              {selectedProducts.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{Number(product.price)}</TableCell>
+                  <TableCell>{product.quantity}</TableCell>
+                  <TableCell>
+                    {formatCurrency(product.price * product.quantity)}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={() => handleDelateProductTableButton(product)}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={3}>Total</TableCell>
+                <TableCell>{formatCurrency(productTotal)}</TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+          <SheetFooter>
+            <Button variant="outline" onClick={handleCloseDialog}>
+              Finalizar Venda
+            </Button>
+          </SheetFooter>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 
