@@ -67,8 +67,6 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
     },
   });
   const onSubmit = async (data: any) => {
-    // console.log("alalalalalallalala", data);
-    // setIsOpen?.(false);
     const selectedProduct = products.find(
       (product) => product.id === data.productId,
     );
@@ -79,6 +77,16 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
       );
 
       if (existingProducts) {
+        const productOutOfStock =
+          existingProducts?.quantity + data.quantity > selectedProduct.stock;
+        if (productOutOfStock) {
+          form.setError("quantity", {
+            message: "Quantidade indisponivel",
+          });
+          return currentProducts;
+        }
+        form.reset();
+
         return currentProducts.map((product) => {
           if (product.id === selectedProduct.id) {
             return {
@@ -89,6 +97,15 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
           return product;
         });
       }
+      const productOutOfStock = data.quantity > selectedProduct.stock;
+      if (productOutOfStock) {
+        form.setError("quantity", {
+          message: "Quantidade indisponivel",
+        });
+        return currentProducts;
+      }
+      form.reset();
+
       return [
         ...currentProducts,
         {
@@ -98,7 +115,6 @@ const UpsertSaleDialog = ({ productOptions, products }: SalesFormProps) => {
         },
       ];
     });
-    form.reset();
   };
   const handleDelateProductTableButton = (data: SelectedProducts) => {
     setSelectedProducts((prev) =>
