@@ -23,10 +23,6 @@ import {
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
 
-import {
-  UpsertSaleSchema,
-  upsertSalesSchema,
-} from "@/app/_actions/sales/add-sales/schema";
 import { ComboboxOption, ComboboxSales } from "../../_components/ui/combobox";
 import { useMemo, useState } from "react";
 import { Product } from "@/app/generated/prisma";
@@ -42,6 +38,8 @@ import {
 } from "@/app/_components/ui/table";
 import { formatCurrency } from "@/app/_helpers/format-currency";
 import { TrashIcon } from "lucide-react";
+import { createSale } from "@/app/_actions/sales/create-sales";
+import { z } from "zod";
 
 interface SalesFormProps {
   productOptions: ComboboxOption[];
@@ -55,6 +53,7 @@ interface SelectedProducts {
   quantity: number;
   price: number;
 }
+
 const UpsertSaleDialog = ({
   productOptions,
   products,
@@ -64,15 +63,23 @@ const UpsertSaleDialog = ({
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>(
     [],
   );
-  const form = useForm<UpsertSaleSchema>({
+  const formSchema = z.object({
+    productId: z.string().uuid({
+      message: "O produto é obrigatório.",
+    }),
+    quantity: z.coerce.number().int().positive(),
+  });
+
+  type FormSchema = z.infer<typeof formSchema>;
+  const form = useForm<FormSchema>({
     shouldUnregister: true,
-    resolver: zodResolver(upsertSalesSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       productId: "",
       quantity: 1,
     },
   });
-  const onSubmit = async (data: UpsertSaleSchema) => {
+  const onSubmit = async (data: FormSchema) => {
     const selectedProduct = products.find(
       (product) => product.id === data.productId,
     );
@@ -91,7 +98,6 @@ const UpsertSaleDialog = ({
           });
           return currentProducts;
         }
-        form.reset();
 
         return currentProducts.map((product) => {
           if (product.id === selectedProduct.id) {
@@ -110,7 +116,7 @@ const UpsertSaleDialog = ({
         });
         return currentProducts;
       }
-      form.reset();
+      // form.reset();
 
       return [
         ...currentProducts,
@@ -127,8 +133,18 @@ const UpsertSaleDialog = ({
       prev.filter((produto) => produto.id !== data.id),
     );
   };
-  const handleCloseDialog = () => {
-    setIsOpen(false);
+  const onSubmitSale = async () => {
+    // try {
+    //   await createSale({
+    //     products: selectedProducts.map((product) => ({
+    //       id: product.id,
+    //       quantity: product.quantity,
+    //     })),
+    //   });
+    // } catch (error) {
+    //   console.log("SALE CREATE ERROR****", error);
+    // }
+    // setIsOpen(false);
   };
 
   const productTotal = useMemo(() => {
@@ -243,7 +259,7 @@ const UpsertSaleDialog = ({
             </TableFooter>
           </Table>
           <SheetFooter>
-            <Button variant="outline" onClick={handleCloseDialog}>
+            <Button variant="outline" onClick={onSubmitSale}>
               Finalizar Venda
             </Button>
           </SheetFooter>
