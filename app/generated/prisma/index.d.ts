@@ -1082,11 +1082,11 @@ export namespace Prisma {
    */
 
   export type SaleCountOutputType = {
-    products: number
+    saleProcucts: number
   }
 
   export type SaleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    products?: boolean | SaleCountOutputTypeCountProductsArgs
+    saleProcucts?: boolean | SaleCountOutputTypeCountSaleProcuctsArgs
   }
 
   // Custom InputTypes
@@ -1103,7 +1103,7 @@ export namespace Prisma {
   /**
    * SaleCountOutputType without action
    */
-  export type SaleCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SaleCountOutputTypeCountSaleProcuctsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SaleProductWhereInput
   }
 
@@ -2239,24 +2239,13 @@ export namespace Prisma {
 
   export type AggregateSale = {
     _count: SaleCountAggregateOutputType | null
-    _avg: SaleAvgAggregateOutputType | null
-    _sum: SaleSumAggregateOutputType | null
     _min: SaleMinAggregateOutputType | null
     _max: SaleMaxAggregateOutputType | null
-  }
-
-  export type SaleAvgAggregateOutputType = {
-    quantity: number | null
-  }
-
-  export type SaleSumAggregateOutputType = {
-    quantity: number | null
   }
 
   export type SaleMinAggregateOutputType = {
     id: string | null
     date: Date | null
-    quantity: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2264,7 +2253,6 @@ export namespace Prisma {
   export type SaleMaxAggregateOutputType = {
     id: string | null
     date: Date | null
-    quantity: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2272,25 +2260,15 @@ export namespace Prisma {
   export type SaleCountAggregateOutputType = {
     id: number
     date: number
-    quantity: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type SaleAvgAggregateInputType = {
-    quantity?: true
-  }
-
-  export type SaleSumAggregateInputType = {
-    quantity?: true
-  }
-
   export type SaleMinAggregateInputType = {
     id?: true
     date?: true
-    quantity?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2298,7 +2276,6 @@ export namespace Prisma {
   export type SaleMaxAggregateInputType = {
     id?: true
     date?: true
-    quantity?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2306,7 +2283,6 @@ export namespace Prisma {
   export type SaleCountAggregateInputType = {
     id?: true
     date?: true
-    quantity?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2350,18 +2326,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: SaleAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: SaleSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: SaleMinAggregateInputType
@@ -2392,8 +2356,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SaleCountAggregateInputType | true
-    _avg?: SaleAvgAggregateInputType
-    _sum?: SaleSumAggregateInputType
     _min?: SaleMinAggregateInputType
     _max?: SaleMaxAggregateInputType
   }
@@ -2401,12 +2363,9 @@ export namespace Prisma {
   export type SaleGroupByOutputType = {
     id: string
     date: Date
-    quantity: number
     createdAt: Date
     updatedAt: Date
     _count: SaleCountAggregateOutputType | null
-    _avg: SaleAvgAggregateOutputType | null
-    _sum: SaleSumAggregateOutputType | null
     _min: SaleMinAggregateOutputType | null
     _max: SaleMaxAggregateOutputType | null
   }
@@ -2428,17 +2387,15 @@ export namespace Prisma {
   export type SaleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     date?: boolean
-    quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    products?: boolean | Sale$productsArgs<ExtArgs>
+    saleProcucts?: boolean | Sale$saleProcuctsArgs<ExtArgs>
     _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sale"]>
 
   export type SaleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     date?: boolean
-    quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["sale"]>
@@ -2446,7 +2403,6 @@ export namespace Prisma {
   export type SaleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     date?: boolean
-    quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["sale"]>
@@ -2454,14 +2410,13 @@ export namespace Prisma {
   export type SaleSelectScalar = {
     id?: boolean
     date?: boolean
-    quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SaleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "quantity" | "createdAt" | "updatedAt", ExtArgs["result"]["sale"]>
+  export type SaleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "createdAt" | "updatedAt", ExtArgs["result"]["sale"]>
   export type SaleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    products?: boolean | Sale$productsArgs<ExtArgs>
+    saleProcucts?: boolean | Sale$saleProcuctsArgs<ExtArgs>
     _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SaleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2470,12 +2425,11 @@ export namespace Prisma {
   export type $SalePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Sale"
     objects: {
-      products: Prisma.$SaleProductPayload<ExtArgs>[]
+      saleProcucts: Prisma.$SaleProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       date: Date
-      quantity: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["sale"]>
@@ -2872,7 +2826,7 @@ export namespace Prisma {
    */
   export interface Prisma__SaleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    products<T extends Sale$productsArgs<ExtArgs> = {}>(args?: Subset<T, Sale$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SaleProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    saleProcucts<T extends Sale$saleProcuctsArgs<ExtArgs> = {}>(args?: Subset<T, Sale$saleProcuctsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SaleProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2904,7 +2858,6 @@ export namespace Prisma {
   interface SaleFieldRefs {
     readonly id: FieldRef<"Sale", 'String'>
     readonly date: FieldRef<"Sale", 'DateTime'>
-    readonly quantity: FieldRef<"Sale", 'Int'>
     readonly createdAt: FieldRef<"Sale", 'DateTime'>
     readonly updatedAt: FieldRef<"Sale", 'DateTime'>
   }
@@ -3295,9 +3248,9 @@ export namespace Prisma {
   }
 
   /**
-   * Sale.products
+   * Sale.saleProcucts
    */
-  export type Sale$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Sale$saleProcuctsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SaleProduct
      */
@@ -3351,12 +3304,12 @@ export namespace Prisma {
 
   export type SaleProductAvgAggregateOutputType = {
     quantity: number | null
-    price: Decimal | null
+    unitPrice: Decimal | null
   }
 
   export type SaleProductSumAggregateOutputType = {
     quantity: number | null
-    price: Decimal | null
+    unitPrice: Decimal | null
   }
 
   export type SaleProductMinAggregateOutputType = {
@@ -3364,9 +3317,9 @@ export namespace Prisma {
     saleId: string | null
     productId: string | null
     quantity: number | null
-    price: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
+    unitPrice: Decimal | null
   }
 
   export type SaleProductMaxAggregateOutputType = {
@@ -3374,9 +3327,9 @@ export namespace Prisma {
     saleId: string | null
     productId: string | null
     quantity: number | null
-    price: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
+    unitPrice: Decimal | null
   }
 
   export type SaleProductCountAggregateOutputType = {
@@ -3384,21 +3337,21 @@ export namespace Prisma {
     saleId: number
     productId: number
     quantity: number
-    price: number
     createdAt: number
     updatedAt: number
+    unitPrice: number
     _all: number
   }
 
 
   export type SaleProductAvgAggregateInputType = {
     quantity?: true
-    price?: true
+    unitPrice?: true
   }
 
   export type SaleProductSumAggregateInputType = {
     quantity?: true
-    price?: true
+    unitPrice?: true
   }
 
   export type SaleProductMinAggregateInputType = {
@@ -3406,9 +3359,9 @@ export namespace Prisma {
     saleId?: true
     productId?: true
     quantity?: true
-    price?: true
     createdAt?: true
     updatedAt?: true
+    unitPrice?: true
   }
 
   export type SaleProductMaxAggregateInputType = {
@@ -3416,9 +3369,9 @@ export namespace Prisma {
     saleId?: true
     productId?: true
     quantity?: true
-    price?: true
     createdAt?: true
     updatedAt?: true
+    unitPrice?: true
   }
 
   export type SaleProductCountAggregateInputType = {
@@ -3426,9 +3379,9 @@ export namespace Prisma {
     saleId?: true
     productId?: true
     quantity?: true
-    price?: true
     createdAt?: true
     updatedAt?: true
+    unitPrice?: true
     _all?: true
   }
 
@@ -3523,9 +3476,9 @@ export namespace Prisma {
     saleId: string
     productId: string
     quantity: number
-    price: Decimal
     createdAt: Date
     updatedAt: Date
+    unitPrice: Decimal
     _count: SaleProductCountAggregateOutputType | null
     _avg: SaleProductAvgAggregateOutputType | null
     _sum: SaleProductSumAggregateOutputType | null
@@ -3552,9 +3505,9 @@ export namespace Prisma {
     saleId?: boolean
     productId?: boolean
     quantity?: boolean
-    price?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    unitPrice?: boolean
     sale?: boolean | SaleDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["saleProduct"]>
@@ -3564,9 +3517,9 @@ export namespace Prisma {
     saleId?: boolean
     productId?: boolean
     quantity?: boolean
-    price?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    unitPrice?: boolean
     sale?: boolean | SaleDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["saleProduct"]>
@@ -3576,9 +3529,9 @@ export namespace Prisma {
     saleId?: boolean
     productId?: boolean
     quantity?: boolean
-    price?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    unitPrice?: boolean
     sale?: boolean | SaleDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["saleProduct"]>
@@ -3588,12 +3541,12 @@ export namespace Prisma {
     saleId?: boolean
     productId?: boolean
     quantity?: boolean
-    price?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    unitPrice?: boolean
   }
 
-  export type SaleProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "saleId" | "productId" | "quantity" | "price" | "createdAt" | "updatedAt", ExtArgs["result"]["saleProduct"]>
+  export type SaleProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "saleId" | "productId" | "quantity" | "createdAt" | "updatedAt" | "unitPrice", ExtArgs["result"]["saleProduct"]>
   export type SaleProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sale?: boolean | SaleDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
@@ -3618,9 +3571,9 @@ export namespace Prisma {
       saleId: string
       productId: string
       quantity: number
-      price: Prisma.Decimal
       createdAt: Date
       updatedAt: Date
+      unitPrice: Prisma.Decimal
     }, ExtArgs["result"]["saleProduct"]>
     composites: {}
   }
@@ -4050,9 +4003,9 @@ export namespace Prisma {
     readonly saleId: FieldRef<"SaleProduct", 'String'>
     readonly productId: FieldRef<"SaleProduct", 'String'>
     readonly quantity: FieldRef<"SaleProduct", 'Int'>
-    readonly price: FieldRef<"SaleProduct", 'Decimal'>
     readonly createdAt: FieldRef<"SaleProduct", 'DateTime'>
     readonly updatedAt: FieldRef<"SaleProduct", 'DateTime'>
+    readonly unitPrice: FieldRef<"SaleProduct", 'Decimal'>
   }
     
 
@@ -4496,7 +4449,6 @@ export namespace Prisma {
   export const SaleScalarFieldEnum: {
     id: 'id',
     date: 'date',
-    quantity: 'quantity',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -4509,9 +4461,9 @@ export namespace Prisma {
     saleId: 'saleId',
     productId: 'productId',
     quantity: 'quantity',
-    price: 'price',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    unitPrice: 'unitPrice'
   };
 
   export type SaleProductScalarFieldEnum = (typeof SaleProductScalarFieldEnum)[keyof typeof SaleProductScalarFieldEnum]
@@ -4679,19 +4631,17 @@ export namespace Prisma {
     NOT?: SaleWhereInput | SaleWhereInput[]
     id?: StringFilter<"Sale"> | string
     date?: DateTimeFilter<"Sale"> | Date | string
-    quantity?: IntFilter<"Sale"> | number
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
-    products?: SaleProductListRelationFilter
+    saleProcucts?: SaleProductListRelationFilter
   }
 
   export type SaleOrderByWithRelationInput = {
     id?: SortOrder
     date?: SortOrder
-    quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    products?: SaleProductOrderByRelationAggregateInput
+    saleProcucts?: SaleProductOrderByRelationAggregateInput
   }
 
   export type SaleWhereUniqueInput = Prisma.AtLeast<{
@@ -4700,23 +4650,19 @@ export namespace Prisma {
     OR?: SaleWhereInput[]
     NOT?: SaleWhereInput | SaleWhereInput[]
     date?: DateTimeFilter<"Sale"> | Date | string
-    quantity?: IntFilter<"Sale"> | number
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
-    products?: SaleProductListRelationFilter
+    saleProcucts?: SaleProductListRelationFilter
   }, "id">
 
   export type SaleOrderByWithAggregationInput = {
     id?: SortOrder
     date?: SortOrder
-    quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SaleCountOrderByAggregateInput
-    _avg?: SaleAvgOrderByAggregateInput
     _max?: SaleMaxOrderByAggregateInput
     _min?: SaleMinOrderByAggregateInput
-    _sum?: SaleSumOrderByAggregateInput
   }
 
   export type SaleScalarWhereWithAggregatesInput = {
@@ -4725,7 +4671,6 @@ export namespace Prisma {
     NOT?: SaleScalarWhereWithAggregatesInput | SaleScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Sale"> | string
     date?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
-    quantity?: IntWithAggregatesFilter<"Sale"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
   }
@@ -4738,9 +4683,9 @@ export namespace Prisma {
     saleId?: StringFilter<"SaleProduct"> | string
     productId?: StringFilter<"SaleProduct"> | string
     quantity?: IntFilter<"SaleProduct"> | number
-    price?: DecimalFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"SaleProduct"> | Date | string
     updatedAt?: DateTimeFilter<"SaleProduct"> | Date | string
+    unitPrice?: DecimalFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
     sale?: XOR<SaleScalarRelationFilter, SaleWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }
@@ -4750,9 +4695,9 @@ export namespace Prisma {
     saleId?: SortOrder
     productId?: SortOrder
     quantity?: SortOrder
-    price?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    unitPrice?: SortOrder
     sale?: SaleOrderByWithRelationInput
     product?: ProductOrderByWithRelationInput
   }
@@ -4765,9 +4710,9 @@ export namespace Prisma {
     saleId?: StringFilter<"SaleProduct"> | string
     productId?: StringFilter<"SaleProduct"> | string
     quantity?: IntFilter<"SaleProduct"> | number
-    price?: DecimalFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"SaleProduct"> | Date | string
     updatedAt?: DateTimeFilter<"SaleProduct"> | Date | string
+    unitPrice?: DecimalFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
     sale?: XOR<SaleScalarRelationFilter, SaleWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }, "id">
@@ -4777,9 +4722,9 @@ export namespace Prisma {
     saleId?: SortOrder
     productId?: SortOrder
     quantity?: SortOrder
-    price?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    unitPrice?: SortOrder
     _count?: SaleProductCountOrderByAggregateInput
     _avg?: SaleProductAvgOrderByAggregateInput
     _max?: SaleProductMaxOrderByAggregateInput
@@ -4795,9 +4740,9 @@ export namespace Prisma {
     saleId?: StringWithAggregatesFilter<"SaleProduct"> | string
     productId?: StringWithAggregatesFilter<"SaleProduct"> | string
     quantity?: IntWithAggregatesFilter<"SaleProduct"> | number
-    price?: DecimalWithAggregatesFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeWithAggregatesFilter<"SaleProduct"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SaleProduct"> | Date | string
+    unitPrice?: DecimalWithAggregatesFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
   }
 
   export type ProductCreateInput = {
@@ -4870,43 +4815,38 @@ export namespace Prisma {
   export type SaleCreateInput = {
     id?: string
     date: Date | string
-    quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    products?: SaleProductCreateNestedManyWithoutSaleInput
+    saleProcucts?: SaleProductCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateInput = {
     id?: string
     date: Date | string
-    quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    products?: SaleProductUncheckedCreateNestedManyWithoutSaleInput
+    saleProcucts?: SaleProductUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    products?: SaleProductUpdateManyWithoutSaleNestedInput
+    saleProcucts?: SaleProductUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    products?: SaleProductUncheckedUpdateManyWithoutSaleNestedInput
+    saleProcucts?: SaleProductUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleCreateManyInput = {
     id?: string
     date: Date | string
-    quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4914,7 +4854,6 @@ export namespace Prisma {
   export type SaleUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4922,7 +4861,6 @@ export namespace Prisma {
   export type SaleUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4930,10 +4868,10 @@ export namespace Prisma {
   export type SaleProductCreateInput = {
     id?: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    sale: SaleCreateNestedOneWithoutProductsInput
+    unitPrice: Decimal | DecimalJsLike | number | string
+    sale: SaleCreateNestedOneWithoutSaleProcuctsInput
     product: ProductCreateNestedOneWithoutSaleProductsInput
   }
 
@@ -4942,18 +4880,18 @@ export namespace Prisma {
     saleId: string
     productId: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unitPrice: Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sale?: SaleUpdateOneRequiredWithoutProductsNestedInput
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    sale?: SaleUpdateOneRequiredWithoutSaleProcuctsNestedInput
     product?: ProductUpdateOneRequiredWithoutSaleProductsNestedInput
   }
 
@@ -4962,9 +4900,9 @@ export namespace Prisma {
     saleId?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductCreateManyInput = {
@@ -4972,17 +4910,17 @@ export namespace Prisma {
     saleId: string
     productId: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unitPrice: Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductUncheckedUpdateManyInput = {
@@ -4990,9 +4928,9 @@ export namespace Prisma {
     saleId?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -5157,19 +5095,13 @@ export namespace Prisma {
   export type SaleCountOrderByAggregateInput = {
     id?: SortOrder
     date?: SortOrder
-    quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type SaleAvgOrderByAggregateInput = {
-    quantity?: SortOrder
   }
 
   export type SaleMaxOrderByAggregateInput = {
     id?: SortOrder
     date?: SortOrder
-    quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -5177,13 +5109,8 @@ export namespace Prisma {
   export type SaleMinOrderByAggregateInput = {
     id?: SortOrder
     date?: SortOrder
-    quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type SaleSumOrderByAggregateInput = {
-    quantity?: SortOrder
   }
 
   export type SaleScalarRelationFilter = {
@@ -5201,14 +5128,14 @@ export namespace Prisma {
     saleId?: SortOrder
     productId?: SortOrder
     quantity?: SortOrder
-    price?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    unitPrice?: SortOrder
   }
 
   export type SaleProductAvgOrderByAggregateInput = {
     quantity?: SortOrder
-    price?: SortOrder
+    unitPrice?: SortOrder
   }
 
   export type SaleProductMaxOrderByAggregateInput = {
@@ -5216,9 +5143,9 @@ export namespace Prisma {
     saleId?: SortOrder
     productId?: SortOrder
     quantity?: SortOrder
-    price?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    unitPrice?: SortOrder
   }
 
   export type SaleProductMinOrderByAggregateInput = {
@@ -5226,14 +5153,14 @@ export namespace Prisma {
     saleId?: SortOrder
     productId?: SortOrder
     quantity?: SortOrder
-    price?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    unitPrice?: SortOrder
   }
 
   export type SaleProductSumOrderByAggregateInput = {
     quantity?: SortOrder
-    price?: SortOrder
+    unitPrice?: SortOrder
   }
 
   export type SaleProductCreateNestedManyWithoutProductInput = {
@@ -5344,9 +5271,9 @@ export namespace Prisma {
     deleteMany?: SaleProductScalarWhereInput | SaleProductScalarWhereInput[]
   }
 
-  export type SaleCreateNestedOneWithoutProductsInput = {
-    create?: XOR<SaleCreateWithoutProductsInput, SaleUncheckedCreateWithoutProductsInput>
-    connectOrCreate?: SaleCreateOrConnectWithoutProductsInput
+  export type SaleCreateNestedOneWithoutSaleProcuctsInput = {
+    create?: XOR<SaleCreateWithoutSaleProcuctsInput, SaleUncheckedCreateWithoutSaleProcuctsInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutSaleProcuctsInput
     connect?: SaleWhereUniqueInput
   }
 
@@ -5356,12 +5283,12 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput
   }
 
-  export type SaleUpdateOneRequiredWithoutProductsNestedInput = {
-    create?: XOR<SaleCreateWithoutProductsInput, SaleUncheckedCreateWithoutProductsInput>
-    connectOrCreate?: SaleCreateOrConnectWithoutProductsInput
-    upsert?: SaleUpsertWithoutProductsInput
+  export type SaleUpdateOneRequiredWithoutSaleProcuctsNestedInput = {
+    create?: XOR<SaleCreateWithoutSaleProcuctsInput, SaleUncheckedCreateWithoutSaleProcuctsInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutSaleProcuctsInput
+    upsert?: SaleUpsertWithoutSaleProcuctsInput
     connect?: SaleWhereUniqueInput
-    update?: XOR<XOR<SaleUpdateToOneWithWhereWithoutProductsInput, SaleUpdateWithoutProductsInput>, SaleUncheckedUpdateWithoutProductsInput>
+    update?: XOR<XOR<SaleUpdateToOneWithWhereWithoutSaleProcuctsInput, SaleUpdateWithoutSaleProcuctsInput>, SaleUncheckedUpdateWithoutSaleProcuctsInput>
   }
 
   export type ProductUpdateOneRequiredWithoutSaleProductsNestedInput = {
@@ -5496,19 +5423,19 @@ export namespace Prisma {
   export type SaleProductCreateWithoutProductInput = {
     id?: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    sale: SaleCreateNestedOneWithoutProductsInput
+    unitPrice: Decimal | DecimalJsLike | number | string
+    sale: SaleCreateNestedOneWithoutSaleProcuctsInput
   }
 
   export type SaleProductUncheckedCreateWithoutProductInput = {
     id?: string
     saleId: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unitPrice: Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductCreateOrConnectWithoutProductInput = {
@@ -5545,17 +5472,17 @@ export namespace Prisma {
     saleId?: StringFilter<"SaleProduct"> | string
     productId?: StringFilter<"SaleProduct"> | string
     quantity?: IntFilter<"SaleProduct"> | number
-    price?: DecimalFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"SaleProduct"> | Date | string
     updatedAt?: DateTimeFilter<"SaleProduct"> | Date | string
+    unitPrice?: DecimalFilter<"SaleProduct"> | Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductCreateWithoutSaleInput = {
     id?: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unitPrice: Decimal | DecimalJsLike | number | string
     product: ProductCreateNestedOneWithoutSaleProductsInput
   }
 
@@ -5563,9 +5490,9 @@ export namespace Prisma {
     id?: string
     productId: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unitPrice: Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductCreateOrConnectWithoutSaleInput = {
@@ -5594,25 +5521,23 @@ export namespace Prisma {
     data: XOR<SaleProductUpdateManyMutationInput, SaleProductUncheckedUpdateManyWithoutSaleInput>
   }
 
-  export type SaleCreateWithoutProductsInput = {
+  export type SaleCreateWithoutSaleProcuctsInput = {
     id?: string
     date: Date | string
-    quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type SaleUncheckedCreateWithoutProductsInput = {
+  export type SaleUncheckedCreateWithoutSaleProcuctsInput = {
     id?: string
     date: Date | string
-    quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type SaleCreateOrConnectWithoutProductsInput = {
+  export type SaleCreateOrConnectWithoutSaleProcuctsInput = {
     where: SaleWhereUniqueInput
-    create: XOR<SaleCreateWithoutProductsInput, SaleUncheckedCreateWithoutProductsInput>
+    create: XOR<SaleCreateWithoutSaleProcuctsInput, SaleUncheckedCreateWithoutSaleProcuctsInput>
   }
 
   export type ProductCreateWithoutSaleProductsInput = {
@@ -5638,29 +5563,27 @@ export namespace Prisma {
     create: XOR<ProductCreateWithoutSaleProductsInput, ProductUncheckedCreateWithoutSaleProductsInput>
   }
 
-  export type SaleUpsertWithoutProductsInput = {
-    update: XOR<SaleUpdateWithoutProductsInput, SaleUncheckedUpdateWithoutProductsInput>
-    create: XOR<SaleCreateWithoutProductsInput, SaleUncheckedCreateWithoutProductsInput>
+  export type SaleUpsertWithoutSaleProcuctsInput = {
+    update: XOR<SaleUpdateWithoutSaleProcuctsInput, SaleUncheckedUpdateWithoutSaleProcuctsInput>
+    create: XOR<SaleCreateWithoutSaleProcuctsInput, SaleUncheckedCreateWithoutSaleProcuctsInput>
     where?: SaleWhereInput
   }
 
-  export type SaleUpdateToOneWithWhereWithoutProductsInput = {
+  export type SaleUpdateToOneWithWhereWithoutSaleProcuctsInput = {
     where?: SaleWhereInput
-    data: XOR<SaleUpdateWithoutProductsInput, SaleUncheckedUpdateWithoutProductsInput>
+    data: XOR<SaleUpdateWithoutSaleProcuctsInput, SaleUncheckedUpdateWithoutSaleProcuctsInput>
   }
 
-  export type SaleUpdateWithoutProductsInput = {
+  export type SaleUpdateWithoutSaleProcuctsInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SaleUncheckedUpdateWithoutProductsInput = {
+  export type SaleUncheckedUpdateWithoutSaleProcuctsInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5698,53 +5621,53 @@ export namespace Prisma {
     id?: string
     saleId: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unitPrice: Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sale?: SaleUpdateOneRequiredWithoutProductsNestedInput
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    sale?: SaleUpdateOneRequiredWithoutSaleProcuctsNestedInput
   }
 
   export type SaleProductUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     saleId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductUncheckedUpdateManyWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     saleId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductCreateManySaleInput = {
     id?: string
     productId: string
     quantity: number
-    price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unitPrice: Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductUpdateWithoutSaleInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     product?: ProductUpdateOneRequiredWithoutSaleProductsNestedInput
   }
 
@@ -5752,18 +5675,18 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SaleProductUncheckedUpdateManyWithoutSaleInput = {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
 

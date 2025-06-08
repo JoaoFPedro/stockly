@@ -28,21 +28,20 @@ model Product {
 model Sale {
   id        String   @id @default(uuid())
   date      DateTime
-  quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  products SaleProduct[]
+  saleProcucts SaleProduct[]
 }
 
 model SaleProduct {
   id        String   @id @default(uuid())
   saleId    String
-  sale      Sale     @relation(fields: [saleId], references: [id])
+  sale      Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
   productId String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
-  price     Decimal  @db.Decimal(10, 2)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  unitPrice Decimal  @db.Decimal(10, 2)
 }

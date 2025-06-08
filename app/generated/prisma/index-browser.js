@@ -132,7 +132,6 @@ exports.Prisma.ProductScalarFieldEnum = {
 exports.Prisma.SaleScalarFieldEnum = {
   id: 'id',
   date: 'date',
-  quantity: 'quantity',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -142,9 +141,9 @@ exports.Prisma.SaleProductScalarFieldEnum = {
   saleId: 'saleId',
   productId: 'productId',
   quantity: 'quantity',
-  price: 'price',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  unitPrice: 'unitPrice'
 };
 
 exports.Prisma.SortOrder = {
