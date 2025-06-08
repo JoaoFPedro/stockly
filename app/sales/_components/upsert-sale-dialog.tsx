@@ -38,8 +38,8 @@ import {
 } from "@/app/_components/ui/table";
 import { formatCurrency } from "@/app/_helpers/format-currency";
 import { TrashIcon } from "lucide-react";
-import { createSale } from "@/app/_actions/sales/create-sales";
 import { z } from "zod";
+import { createSale } from "@/app/_actions/sales/create-sales";
 
 interface SalesFormProps {
   productOptions: ComboboxOption[];
@@ -134,17 +134,17 @@ const UpsertSaleDialog = ({
     );
   };
   const onSubmitSale = async () => {
-    // try {
-    //   await createSale({
-    //     products: selectedProducts.map((product) => ({
-    //       id: product.id,
-    //       quantity: product.quantity,
-    //     })),
-    //   });
-    // } catch (error) {
-    //   console.log("SALE CREATE ERROR****", error);
-    // }
-    // setIsOpen(false);
+    try {
+      await createSale({
+        products: selectedProducts.map((product) => ({
+          id: product.id,
+          quantity: product.quantity,
+        })),
+      });
+    } catch (error) {
+      console.log("SALE CREATE ERROR****", error);
+    }
+    setIsOpen(false);
   };
 
   const productTotal = useMemo(() => {
@@ -259,7 +259,11 @@ const UpsertSaleDialog = ({
             </TableFooter>
           </Table>
           <SheetFooter>
-            <Button variant="outline" onClick={onSubmitSale}>
+            <Button
+              variant="outline"
+              onClick={onSubmitSale}
+              disabled={selectedProducts.length === 0}
+            >
               Finalizar Venda
             </Button>
           </SheetFooter>
