@@ -20,12 +20,27 @@ export const createSale = async (data: CreateSalesSchema) => {
     if (!productFromDb) {
       throw new Error("Product not found");
     }
+    const isProductOutOfStock = product.quantity > productFromDb.stock;
+
+    if (isProductOutOfStock) {
+      throw new Error("Product out of stock");
+    }
     await db.saleProduct.create({
       data: {
         saleId: sale.id,
         productId: product.id,
         quantity: product.quantity,
         unitPrice: productFromDb.price,
+      },
+    });
+    await db.product.update({
+      where: {
+        id: product.id,
+      },
+      data: {
+        stock: {
+          decrement: product.quantity,
+        },
       },
     });
   }
