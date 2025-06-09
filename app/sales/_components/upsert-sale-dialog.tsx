@@ -40,6 +40,7 @@ import { formatCurrency } from "@/app/_helpers/format-currency";
 import { TrashIcon } from "lucide-react";
 import { z } from "zod";
 import { createSale } from "@/app/_actions/sales/create-sales";
+import { toast } from "sonner";
 
 interface SalesFormProps {
   productOptions: ComboboxOption[];
@@ -141,6 +142,7 @@ const UpsertSaleDialog = ({
           quantity: product.quantity,
         })),
       });
+      toast.success("Venda realizada com sucesso!");
     } catch (error) {
       console.log("SALE CREATE ERROR****", error);
     }
