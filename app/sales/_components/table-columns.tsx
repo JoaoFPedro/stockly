@@ -1,6 +1,7 @@
 "use client";
 
-import { Sale } from "@/app/generated/prisma";
+import { SaleDto } from "@/app/_data-access/sales/get-sales";
+import { formatCurrency } from "@/app/_helpers/format-currency";
 import { ColumnDef } from "@tanstack/react-table";
 
 // This type is used to define the shape of our data.
@@ -9,34 +10,38 @@ import { ColumnDef } from "@tanstack/react-table";
 
 // }
 
-export const SalesColum: ColumnDef<Sale>[] = [
+export const salesColum: ColumnDef<SaleDto>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "productNames",
     header: "Produtos",
   },
 
   {
-    accessorKey: "quantity",
     header: "Quantidade de Produto",
-    cell: ({ row: { original: sale } }) => {
-      const saleQuantity = Number(sale.quantity);
-
-      return saleQuantity;
-    },
+    cell: ({
+      row: {
+        original: { totalQuantity },
+      },
+    }) => totalQuantity,
+  },
+  {
+    header: "Valor total",
+    cell: ({
+      row: {
+        original: { totalAmount },
+      },
+    }) => formatCurrency(totalAmount),
   },
 
   {
     accessorKey: "createdAt",
     header: "Data",
     cell: ({ row: { original: sales } }) => {
-      const formattedDate = new Date(sales.createdAt).toLocaleDateString(
-        "pt-BR",
-        {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        },
-      );
+      const formattedDate = new Date(sales.date).toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
       return formattedDate;
     },
   },

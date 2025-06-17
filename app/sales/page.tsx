@@ -3,10 +3,13 @@ import { ComboboxOption } from "../_components/ui/combobox";
 
 import SaleButton from "./_components/sale-button";
 import { serializeDecimal } from "../utils/serializeObjects";
+import { DataTable } from "../_components/ui/data-table";
+import { salesColum } from "./_components/table-columns";
+import { getSales } from "../_data-access/sales/get-sales";
 
 const SalesPage = async () => {
   const products = await getProducts();
-
+  const sales = await getSales();
   const productOptions: ComboboxOption[] = products.map((product) => ({
     label: product.name,
     value: product.id,
@@ -25,10 +28,10 @@ const SalesPage = async () => {
           />
         </div>
       </div>
-      {/* <DataTable
-        columns={SalesColum}
-        data={JSON.parse(JSON.stringify(mockTest))}
-      /> */}
+      <DataTable
+        columns={salesColum}
+        data={JSON.parse(JSON.stringify(sales))}
+      />
     </div>
   );
 };
