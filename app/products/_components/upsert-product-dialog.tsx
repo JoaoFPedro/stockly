@@ -21,11 +21,11 @@ import {
   DialogTitle,
 } from "../../_components/ui/dialog";
 import { Loader2Icon } from "lucide-react";
-import { upsertProductAction } from "../../_actions/add-products";
+import { upsertProductAction } from "../../_actions/products/add-products";
 import {
   upsertProductSchema,
   UpsertProductSchema,
-} from "@/app/_actions/add-products/schema";
+} from "@/app/_actions/products/add-products/schema";
 import { useAction } from "next-safe-action/hooks";
 import { flattenValidationErrors } from "next-safe-action";
 import { toast } from "sonner";

@@ -1,4 +1,4 @@
-import { deleteProduct } from "@/app/_actions/delete-products";
+import { deleteProduct } from "@/app/_actions/products/delete-products";
 import { Button } from "@/app/_components/ui/button";
 import {
   Dialog,
