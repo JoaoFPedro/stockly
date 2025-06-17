@@ -1,23 +1,20 @@
 "use client";
 
-import { Product } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import DeleteProductButton from "./DeleteProductButton";
 import EditTransactionButton from "./EditTransactionButton";
+import { ProductsDto } from "@/app/_data-access/product/get-products";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-interface TableColumsProps extends Product {
-  status: string;
-}
 const getStatusLabel = (status: string) => {
   if (status === "IN_STOCK") {
     return "Em estoque";
   }
 };
 
-export const productsColum: ColumnDef<TableColumsProps>[] = [
+export const productsColum: ColumnDef<ProductsDto>[] = [
   {
     accessorKey: "name",
     header: "Produtos",
