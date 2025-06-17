@@ -3,6 +3,7 @@
 import { SaleDto } from "@/app/_data-access/sales/get-sales";
 import { formatCurrency } from "@/app/_helpers/format-currency";
 import { ColumnDef } from "@tanstack/react-table";
+import DeleteSaleButton from "./DeleteSaleButton";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -45,17 +46,16 @@ export const salesColum: ColumnDef<SaleDto>[] = [
       return formattedDate;
     },
   },
-  // {
-  //   accessorKey: "actions",
-  //   header: "Ações",
+  {
+    accessorKey: "actions",
+    header: "Ações",
 
-  //   cell: ({ row: { original: products } }) => {
-  //     return (
-  //       <>
-  //         {/* <EditTransactionButton product={products} />
-  //         <DeleteProductButton productId={products.id} /> */}
-  //       </>
-  //     );
-  //   },
-  // },
+    cell: ({ row: { original: sale } }) => {
+      return (
+        <>
+          <DeleteSaleButton saleId={sale.id} />
+        </>
+      );
+    },
+  },
 ];
