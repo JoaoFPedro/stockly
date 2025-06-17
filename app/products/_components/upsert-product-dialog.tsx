@@ -21,11 +21,14 @@ import {
   DialogTitle,
 } from "../../_components/ui/dialog";
 import { Loader2Icon } from "lucide-react";
-import { upsertProduct } from "../../_actions/add-products";
+import { upsertProductAction } from "../../_actions/add-products";
 import {
   upsertProductSchema,
   UpsertProductSchema,
 } from "@/app/_actions/add-products/schema";
+import { useAction } from "next-safe-action/hooks";
+import { flattenValidationErrors } from "next-safe-action";
+import { toast } from "sonner";
 
 // const formSchema = z.object({
 //   name: z.string().trim().min(1, "Nome é obrigatório"),
@@ -54,16 +57,27 @@ const UpsertProduct = ({
       stock: 1,
     },
   });
-
+  const { execute: executeUpsertProduct } = useAction(upsertProductAction, {
+    onError: ({ error: { validationErrors, serverError } }) => {
+      const flattenedErrors = flattenValidationErrors(validationErrors);
+      toast.error(serverError ?? flattenedErrors.formErrors[0]);
+    },
+    onSuccess: () => {
+      toast.success("Produto cadastrado com sucesso!");
+      setIsOpen?.(false);
+    },
+  });
   const onSubmit = async (data: UpsertProductSchema) => {
     console.log(data);
-    try {
-      await upsertProduct({ ...data, id: defaultValue?.id });
+    // try {
+    //   await upsertProduct({ ...data, id: defaultValue?.id });
 
-      setIsOpen?.(false);
-    } catch (error) {
-      console.log("error while adding product", error);
-    }
+    //   setIsOpen?.(false);
+    // } catch (error) {
+    //   console.log("error while adding product", error);
+    // }
+
+    executeUpsertProduct({ ...data, id: defaultValue?.id });
   };
   const isDefaultValues = !!defaultValue;
   return (

@@ -42,6 +42,9 @@ import { z } from "zod";
 import { createSale } from "@/app/_actions/sales/create-sales";
 import { toast } from "sonner";
 
+import { useAction } from "next-safe-action/hooks";
+import { flattenValidationErrors } from "next-safe-action";
+
 interface SalesFormProps {
   productOptions: ComboboxOption[];
   products: Product[];
@@ -80,6 +83,7 @@ const UpsertSaleDialog = ({
       quantity: 1,
     },
   });
+
   const onSubmit = async (data: FormSchema) => {
     const selectedProduct = products.find(
       (product) => product.id === data.productId,
@@ -91,14 +95,14 @@ const UpsertSaleDialog = ({
       );
 
       if (existingProducts) {
-        const productOutOfStock =
-          existingProducts?.quantity + data.quantity > selectedProduct.stock;
-        if (productOutOfStock) {
-          form.setError("quantity", {
-            message: "Quantidade indisponivel",
-          });
-          return currentProducts;
-        }
+        // const productOutOfStock =
+        //   existingProducts?.quantity + data.quantity > selectedProduct.stock;
+        // if (productOutOfStock) {
+        //   form.setError("quantity", {
+        //     message: "Quantidade indisponivel",
+        //   });
+        //   return currentProducts;
+        // }
 
         return currentProducts.map((product) => {
           if (product.id === selectedProduct.id) {
@@ -110,13 +114,13 @@ const UpsertSaleDialog = ({
           return product;
         });
       }
-      const productOutOfStock = data.quantity > selectedProduct.stock;
-      if (productOutOfStock) {
-        form.setError("quantity", {
-          message: "Quantidade indisponivel",
-        });
-        return currentProducts;
-      }
+      // const productOutOfStock = data.quantity > selectedProduct.stock;
+      // if (productOutOfStock) {
+      //   form.setError("quantity", {
+      //     message: "Quantidade indisponivel",
+      //   });
+      //   return currentProducts;
+      // }
       // form.reset();
 
       return [
@@ -134,19 +138,23 @@ const UpsertSaleDialog = ({
       prev.filter((produto) => produto.id !== data.id),
     );
   };
+  const { execute: executeCreateSale } = useAction(createSale, {
+    onError: ({ error: { validationErrors, serverError } }) => {
+      const flattenedErrors = flattenValidationErrors(validationErrors);
+      toast.error(serverError ?? flattenedErrors.formErrors[0]);
+    },
+    onSuccess: () => {
+      toast.success("Venda realizada com sucesso");
+      setIsOpen(false);
+    },
+  });
   const onSubmitSale = async () => {
-    try {
-      await createSale({
-        products: selectedProducts.map((product) => ({
-          id: product.id,
-          quantity: product.quantity,
-        })),
-      });
-      toast.success("Venda realizada com sucesso!");
-    } catch (error) {
-      console.log("SALE CREATE ERROR****", error);
-    }
-    setIsOpen(false);
+    executeCreateSale({
+      products: selectedProducts.map((product) => ({
+        id: product.id,
+        quantity: product.quantity,
+      })),
+    });
   };
 
   const productTotal = useMemo(() => {

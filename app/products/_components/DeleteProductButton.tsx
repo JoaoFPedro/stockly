@@ -10,6 +10,7 @@ import {
 } from "@/app/_components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Trash2Icon } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 
 interface DeleteProductButtonProps {
@@ -17,10 +18,15 @@ interface DeleteProductButtonProps {
 }
 
 const DeleteProductButton = ({ productId }: DeleteProductButtonProps) => {
-  const handleDeleteButton = async () => {
-    await deleteProduct({ id: productId });
-    toast.success("Produto excluido com sucesso");
-  };
+  const { execute: executeDeleteProduct } = useAction(deleteProduct, {
+    onSuccess: () => {
+      toast.success("Produto excluído com sucesso");
+    },
+    onError: () => {
+      toast.error("Erro ao excluir o produto");
+    },
+  });
+  const handleDeleteButton = () => executeDeleteProduct({ id: productId });
   return (
     <>
       <Dialog>
