@@ -275,6 +275,7 @@ const UpsertSaleDialog = ({
               variant="outline"
               onClick={onSubmitSale}
               disabled={selectedProducts.length === 0}
+              className="bg-green-500 text-white"
             >
               Finalizar Venda
             </Button>
