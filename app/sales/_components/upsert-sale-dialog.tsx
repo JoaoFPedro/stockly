@@ -146,9 +146,10 @@ const UpsertSaleDialog = ({
     onSuccess: () => {
       toast.success("Venda realizada com sucesso");
       setIsOpen(false);
+      setSelectedProducts([]);
     },
   });
-  const onSubmitSale = async () => {
+  const onSubmitSale = () => {
     executeCreateSale({
       products: selectedProducts.map((product) => ({
         id: product.id,
@@ -270,6 +271,7 @@ const UpsertSaleDialog = ({
           </Table>
           <SheetFooter>
             <Button
+              type="submit"
               variant="outline"
               onClick={onSubmitSale}
               disabled={selectedProducts.length === 0}
