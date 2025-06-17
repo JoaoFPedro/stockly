@@ -247,7 +247,7 @@ const UpsertSaleDialog = ({
               {selectedProducts.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell>{product.name}</TableCell>
-                  <TableCell>{Number(product.price)}</TableCell>
+                  <TableCell>{formatCurrency(Number(product.price))}</TableCell>
                   <TableCell>{product.quantity}</TableCell>
                   <TableCell>
                     {formatCurrency(product.price * product.quantity)}
