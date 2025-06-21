@@ -12,6 +12,7 @@ const getStatusLabel = (status: string) => {
   if (status === "IN_STOCK") {
     return "Em estoque";
   }
+  return "Fora de estoque";
 };
 
 export const productsColum: ColumnDef<ProductsDto>[] = [
