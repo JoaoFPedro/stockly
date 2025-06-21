@@ -10,11 +10,16 @@ import { getSales } from "../_data-access/sales/get-sales";
 const SalesPage = async () => {
   const products = await getProducts();
   const sales = await getSales();
-  const productOptions: ComboboxOption[] = products.map((product) => ({
+  const productsOptions: ComboboxOption[] = products.map((product) => ({
     label: product.name,
     value: product.id,
   }));
   const productsSerializados = serializeDecimal(products);
+  const tableData = sales.map((sale) => ({
+    ...sale,
+    products: productsSerializados,
+    productsOptions,
+  }));
   return (
     <div className="w-full space-y-8 p-8">
       <div className="w-full">
@@ -23,15 +28,12 @@ const SalesPage = async () => {
           <h1 className="font-bold">Gestão de Vendas</h1>
           {/* <AddProductButton /> */}
           <SaleButton
-            productOptions={productOptions}
+            productOptions={productsOptions}
             products={productsSerializados}
           />
         </div>
       </div>
-      <DataTable
-        columns={salesColum}
-        data={JSON.parse(JSON.stringify(sales))}
-      />
+      <DataTable columns={salesColum} data={tableData} />
     </div>
   );
 };

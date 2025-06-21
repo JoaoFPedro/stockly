@@ -25,7 +25,6 @@ import { Input } from "@/app/_components/ui/input";
 
 import { ComboboxOption, ComboboxSales } from "../../_components/ui/combobox";
 import { useMemo, useState } from "react";
-import { Product } from "@/app/generated/prisma";
 import {
   Table,
   TableBody,
@@ -44,40 +43,43 @@ import { toast } from "sonner";
 
 import { useAction } from "next-safe-action/hooks";
 import { flattenValidationErrors } from "next-safe-action";
+import {
+  UpsertSalesSchema,
+  upsertSalesSchema,
+} from "@/app/_actions/sales/schema";
+import { ProductsDto } from "@/app/_data-access/product/get-products";
 
-interface SalesFormProps {
-  productOptions: ComboboxOption[];
-  products: Product[];
-  isOpen?: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-}
-interface SelectedProducts {
+export interface SelectedProducts {
   id: string;
   name: string;
   quantity: number;
   price: number;
 }
+interface SalesFormProps {
+  productOptions: ComboboxOption[];
+  products: ProductsDto[];
+  isOpen?: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  defaultValue?: SelectedProducts[];
+  saleId?: string;
+}
 
 const UpsertSaleDialog = ({
+  saleId,
   productOptions,
   products,
   isOpen,
   setIsOpen,
+  defaultValue,
 }: SalesFormProps) => {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>(
-    [],
+    defaultValue ?? [],
   );
-  const formSchema = z.object({
-    productId: z.string().uuid({
-      message: "O produto é obrigatório.",
-    }),
-    quantity: z.coerce.number().int().positive(),
-  });
 
-  type FormSchema = z.infer<typeof formSchema>;
-  const form = useForm<FormSchema>({
+  type FormSchema = z.infer<typeof upsertSalesSchema>;
+  const form = useForm<UpsertSalesSchema>({
     shouldUnregister: true,
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(upsertSalesSchema),
     defaultValues: {
       productId: "",
       quantity: 1,
@@ -85,53 +87,58 @@ const UpsertSaleDialog = ({
   });
 
   const onSubmit = async (data: FormSchema) => {
-    const selectedProduct = products.find(
+    const selectedProduct = products?.find(
       (product) => product.id === data.productId,
     );
     if (!selectedProduct) return;
-    setSelectedProducts((currentProducts) => {
-      const existingProducts = currentProducts.find(
-        (product) => product.id === selectedProduct.id,
+
+    const existingProduct = selectedProducts.find(
+      (product) => product.id === selectedProduct.id,
+    );
+
+    // 🔴 Caso: produto já existe na lista e somaria acima do estoque
+    if (
+      existingProduct &&
+      existingProduct.quantity + data.quantity > selectedProduct.stock
+    ) {
+      form.setError("quantity", {
+        message: "Quantidade indisponível",
+      });
+      return;
+    }
+
+    // 🔴 Caso: produto novo, mas a quantidade ultrapassa o estoque
+    if (!existingProduct && data.quantity > selectedProduct.stock) {
+      form.setError("quantity", {
+        message: "Quantidade indisponível",
+      });
+      return;
+    }
+
+    // ✅ Agora podemos atualizar a lista
+    if (existingProduct) {
+      setSelectedProducts((prev) =>
+        prev.map((product) =>
+          product.id === selectedProduct.id
+            ? {
+                ...product,
+                quantity: product.quantity + data.quantity,
+              }
+            : product,
+        ),
       );
-
-      if (existingProducts) {
-        // const productOutOfStock =
-        //   existingProducts?.quantity + data.quantity > selectedProduct.stock;
-        // if (productOutOfStock) {
-        //   form.setError("quantity", {
-        //     message: "Quantidade indisponivel",
-        //   });
-        //   return currentProducts;
-        // }
-
-        return currentProducts.map((product) => {
-          if (product.id === selectedProduct.id) {
-            return {
-              ...product,
-              quantity: product.quantity + data.quantity,
-            };
-          }
-          return product;
-        });
-      }
-      // const productOutOfStock = data.quantity > selectedProduct.stock;
-      // if (productOutOfStock) {
-      //   form.setError("quantity", {
-      //     message: "Quantidade indisponivel",
-      //   });
-      //   return currentProducts;
-      // }
-      // form.reset();
-
-      return [
-        ...currentProducts,
+    } else {
+      setSelectedProducts((prev) => [
+        ...prev,
         {
           ...selectedProduct,
           quantity: data.quantity,
           price: Number(selectedProduct.price) * data.quantity,
         },
-      ];
-    });
+      ]);
+    }
+
+    form.reset(); // ✅ seguro fora do setState
   };
   const handleDelateProductTableButton = (data: SelectedProducts) => {
     setSelectedProducts((prev) =>
@@ -151,6 +158,7 @@ const UpsertSaleDialog = ({
   });
   const onSubmitSale = () => {
     executeCreateSale({
+      id: saleId,
       products: selectedProducts.map((product) => ({
         id: product.id,
         quantity: product.quantity,

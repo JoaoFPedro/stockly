@@ -6,29 +6,50 @@ import { actionClient } from "@/app/_lib/next-safe-action";
 import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 export const createSale = actionClient
-  .inputSchema(createSalesSchema)
-  .action(async ({ parsedInput: { products } }) => {
+  .schema(createSalesSchema)
+  .action(async ({ parsedInput: { products, id } }) => {
+    const isUpdate = Boolean(id);
     await db.$transaction(async (trx) => {
+      if (isUpdate) {
+        const existingSale = await trx.sale.findUnique({
+          where: { id },
+          include: { saleProcucts: true },
+        });
+        if (!existingSale) return;
+        await trx.sale.delete({
+          where: { id },
+        });
+        for (const product of existingSale.saleProcucts) {
+          await trx.product.update({
+            where: { id: product.productId },
+            data: {
+              stock: {
+                increment: product.quantity,
+              },
+            },
+          });
+        }
+      }
       const sale = await trx.sale.create({
         data: {
           date: new Date(),
         },
       });
       for (const product of products) {
-        const productFromDb = await db.product.findUnique({
+        const productFromDb = await trx.product.findUnique({
           where: {
             id: product.id,
           },
         });
-
         if (!productFromDb) {
-          throw new Error("Product not found");
-        }
-        const isProductOutOfStock = product.quantity > productFromDb.stock;
-
-        if (isProductOutOfStock) {
           returnValidationErrors(createSalesSchema, {
-            _errors: ["Product out of stock"],
+            _errors: ["Product not found."],
+          });
+        }
+        const productIsOutOfStock = product.quantity > productFromDb.stock;
+        if (productIsOutOfStock) {
+          returnValidationErrors(createSalesSchema, {
+            _errors: ["Product out of stock."],
           });
         }
         await trx.saleProduct.create({
@@ -50,6 +71,6 @@ export const createSale = actionClient
           },
         });
       }
-      revalidatePath("/sales");
     });
+    revalidatePath("/", "layout");
   });
