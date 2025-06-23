@@ -6,6 +6,12 @@ import { serializeDecimal } from "../utils/serializeObjects";
 import { DataTable } from "../_components/ui/data-table";
 import { salesColum } from "./_components/table-columns";
 import { getSales } from "../_data-access/sales/get-sales";
+import Header, {
+  HeaderLeft,
+  HeaderRight,
+  HeaderSubTitle,
+  HeaderTitle,
+} from "../_components/header";
 
 const SalesPage = async () => {
   const products = await getProducts();
@@ -22,17 +28,18 @@ const SalesPage = async () => {
   }));
   return (
     <div className="w-full space-y-8 p-8">
-      <div className="w-full">
-        <h1 className="py-6 text-sm font-bold text-[#00A180]">Vendas</h1>
-        <div className="flex justify-between">
-          <h1 className="font-bold">Gestão de Vendas</h1>
-          {/* <AddProductButton /> */}
+      <Header>
+        <HeaderLeft>
+          <HeaderTitle>Vendas</HeaderTitle>
+          <HeaderSubTitle>Gestão de vendas</HeaderSubTitle>
+        </HeaderLeft>
+        <HeaderRight>
           <SaleButton
             productOptions={productsOptions}
             products={productsSerializados}
-          />
-        </div>
-      </div>
+          />{" "}
+        </HeaderRight>
+      </Header>
       <DataTable columns={salesColum} data={tableData} />
     </div>
   );
