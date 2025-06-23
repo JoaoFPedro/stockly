@@ -13,11 +13,13 @@ const SideBar = () => {
         </div>
 
         <div className="ml-6 flex flex-col gap-4">
-          <Button className="text-muted-foreground justify-start">
-            <RxDashboard />
-            Dashboard
-          </Button>
           <Link href="/">
+            <Button className="text-muted-foreground justify-start">
+              <RxDashboard />
+              Dashboard
+            </Button>
+          </Link>
+          <Link href="/products">
             <Button className="text-muted-foreground justify-start">
               <RiBox3Line />
               Produtos
