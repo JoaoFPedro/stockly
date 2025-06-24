@@ -57,7 +57,6 @@ export const salesColum: ColumnDef<SaleTableColumn>[] = [
     header: "Ações",
 
     cell: ({ row: { original: sale } }) => {
-      console.log("SALEPRODUCTOPTIONS****", sale.productsOptions);
       return (
         <>
           <EditaSalesButton
