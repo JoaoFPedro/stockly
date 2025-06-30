@@ -1,29 +1,26 @@
 import { Card, CardContent } from "@/app/_components/ui/card";
 
 import { SaleDto } from "@/app/_data-access/sales/get-sales";
-import { formatCurrency } from "@/app/_helpers/format-currency";
 import { ReactNode } from "react";
 
 interface CardProps {
   sales?: SaleDto[];
   icon?: ReactNode;
   title?: string;
-  totalAmount: number;
+  totalValues: number;
 }
 
-const SummaryCard = ({ totalAmount, title, icon }: CardProps) => {
+const SummaryCards = ({ totalValues, title, icon }: CardProps) => {
   // console.log("TOTALAMOUNT***", total);
   return (
     <Card className="w-full">
       <CardContent>
         {icon}
         <span className="text-xs text-slate-500">{title}</span>
-        <h1 className="text-slate-900">
-          {formatCurrency(Number(totalAmount))}
-        </h1>
+        <h1 className="text-slate-900">{totalValues}</h1>
       </CardContent>
     </Card>
   );
 };
 
-export default SummaryCard;
+export default SummaryCards;
