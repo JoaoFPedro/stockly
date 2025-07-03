@@ -14,11 +14,14 @@ import { getSales } from "../_data-access/sales/get-sales";
 import SummaryCard from "./_components/SummaryCard";
 import SummaryCards from "./_components/SummaryCards";
 import BarChart from "../_components/BarChart";
+import BestSellingProducts from "../_components/BestSellingProducts";
 
 export default async function Home() {
   const sales = await getSales();
   const dashboardData = await getDashboard();
   const totalAmount = dashboardData.totalAmount;
+  const bestSellingProducts = dashboardData.totalBestSellingProduct;
+
   return (
     <div className="w-full space-y-8 p-8">
       <Header>
@@ -57,9 +60,9 @@ export default async function Home() {
           icon={<ShoppingBasket />}
         />
       </div>
-      <div className="grid h-full grid-cols-2 grid-rows-1 gap-6 overflow-hidden">
+      <div className="grid grid-cols-2 grid-rows-1 gap-6 overflow-hidden">
         <BarChart />
-        <BarChart />
+        <BestSellingProducts product={bestSellingProducts} />{" "}
       </div>
     </div>
   );

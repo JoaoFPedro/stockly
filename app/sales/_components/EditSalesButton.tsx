@@ -19,7 +19,6 @@ const EditaSalesButton = ({
   products,
 }: EditSalesButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log("PRODUCTS", products);
   return (
     <>
       <Button onClick={() => setIsOpen(true)}>
