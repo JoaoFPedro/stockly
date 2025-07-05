@@ -1,59 +1,88 @@
-import { TrendingUp } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+"use client";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { BestSellingProduct } from "../_data-access/get-dashboard-values";
+import { formatCurrency } from "../_helpers/format-currency";
+import { Badge } from "./ui/badge";
+import { getStatusLabel } from "../products/_components/table-columns";
 
 interface BestSellingProductProps {
   product: BestSellingProduct[];
 }
 const BestSellingProducts = ({ product }: BestSellingProductProps) => {
   // Agrupa quantidades por id
+
+  {
+    /*
+    Esse trecho de codigo seria utilizado para validar se o item é um array, ja que a tipagem no BestSellingProduct esperava algo assim:
+    export interface BestSellingProduct {
+  name: string[];
+  quantity: number;
+  id: string[];
+  price: string[];
+
+  // const quantityById: Record<string, number> = {};
+  // product.forEach((item) => {
+  //   const id = Array.isArray(item.id) ? item.id[0] : item.id;
+  //   quantityById[id] = (quantityById[id] || 0) + item.quantity;
+  // });
+}
+    */
+  }
   const quantityById: Record<string, number> = {};
   product.forEach((item) => {
-    const id = Array.isArray(item.id) ? item.id[0] : item.id;
+    const id = item.id;
     quantityById[id] = (quantityById[id] || 0) + item.quantity;
   });
-
+  const sortedProducts = [...product].sort((a, b) => {
+    const idA = a.id;
+    const idB = b.id;
+    return quantityById[idB] - quantityById[idA];
+  });
   return (
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Bar Chart - Multiple</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardTitle>Produtos mais vendidos</CardTitle>
         </CardHeader>
         <CardContent>
-          {product.map((product, idx) => {
+          {sortedProducts.map((product) => {
             const id = Array.isArray(product.id) ? product.id[0] : product.id;
-            return (
-              <div key={id} className="flex justify-between">
-                <div>
-                  {Array.isArray(product.name) ? product.name[0] : product.name}
+            const productQuantity = product.quantity > 1;
+            const stock = getStatusLabel(product.status);
 
-                  <div>
-                    {Array.isArray(product.price)
-                      ? product.price[0]
-                      : product.price}
+            return (
+              <div key={id} className="flex justify-between space-y-4">
+                <div className="align-baseline">
+                  <Badge
+                    variant="secondary"
+                    className={
+                      stock == "Em estoque"
+                        ? "bg-green-500 text-white"
+                        : "bg-red-500 text-white"
+                    }
+                  >
+                    {stock}
+                  </Badge>
+                  <div className="px-1">
+                    <p>{product.name}</p>
+
+                    <span className="text-xs text-slate-500">
+                      {formatCurrency(Number(product.price))}
+                    </span>
                   </div>
                 </div>
-                <div> {quantityById[id]} vendidos</div>
+                <div>
+                  {" "}
+                  <span className="text-xs text-slate-700">
+                    {productQuantity
+                      ? `${quantityById[id]} vendidos`
+                      : `${quantityById[id]} vendido`}
+                  </span>
+                </div>
               </div>
             );
           })}
         </CardContent>
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="flex gap-2 leading-none font-medium">
-            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-          <div className="text-muted-foreground leading-none">
-            Showing total visitors for the last 6 months
-          </div>
-        </CardFooter>
       </Card>
     </>
   );

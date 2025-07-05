@@ -60,9 +60,17 @@ export default async function Home() {
           icon={<ShoppingBasket />}
         />
       </div>
-      <div className="grid grid-cols-2 grid-rows-1 gap-6 overflow-hidden">
+      <div className="grid grid-cols-1 gap-6 overflow-hidden md:grid-cols-[4fr_2fr]">
         <BarChart />
-        <BestSellingProducts product={bestSellingProducts} />{" "}
+        <BestSellingProducts
+          product={bestSellingProducts.map((item) => ({
+            name: Array.isArray(item.name) ? item.name[0] : item.name,
+            quantity: item.quantity,
+            id: Array.isArray(item.id) ? item.id[0] : item.id,
+            price: Array.isArray(item.price) ? item.price[0] : item.price,
+            status: Array.isArray(item.status) ? item.status[0] : item.status,
+          }))}
+        />
       </div>
     </div>
   );
