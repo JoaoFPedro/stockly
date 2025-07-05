@@ -8,7 +8,7 @@ import { ProductsDto } from "@/app/_data-access/product/get-products";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-const getStatusLabel = (status: string) => {
+export const getStatusLabel = (status: string) => {
   if (status === "IN_STOCK") {
     return "Em estoque";
   }

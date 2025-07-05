@@ -1,9 +1,10 @@
 import { db } from "@/app/_lib/prisma";
 export interface BestSellingProduct {
-  name: string[];
+  name: string;
   quantity: number;
-  id: string[];
-  price: string[];
+  id: string;
+  price: string;
+  status: "IN_STOCK" | "OUT_OF_STOCK";
 }
 
 export const getDashboard = async () => {
@@ -29,8 +30,10 @@ export const getDashboard = async () => {
     price: item.saleProcucts.map((saleProduct) =>
       saleProduct.product.price.toString(),
     ),
+    status: item.saleProcucts.map((saleProduct) => {
+      return saleProduct.product.stock > 0 ? "IN_STOCK" : "OUT_OF_STOCK";
+    }),
   }));
-  console.log("DKSAODKSPKDOPA***", totalBestSellingProduct);
   const totalAmount = sales.reduce((acc, sale) => {
     const saleTotal = sale.saleProcucts.reduce(
       (saleAcc, saleProduct) =>
