@@ -21,6 +21,8 @@ export default async function Home() {
   const dashboardData = await getDashboard();
   const totalAmount = dashboardData.totalAmount;
   const bestSellingProducts = dashboardData.totalBestSellingProduct;
+  const totalSellingproducts = dashboardData.totalSellingproducts;
+  console.log("BESTSELLINGPRODUCTS****", totalSellingproducts);
 
   return (
     <div className="w-full space-y-8 p-8">
@@ -45,7 +47,7 @@ export default async function Home() {
       </div>
       <div className="flex gap-4">
         <SummaryCards
-          totalValues={1040}
+          totalValues={totalSellingproducts}
           title="Vendas totais"
           icon={<CircleDollarSign />}
         />

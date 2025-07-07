@@ -34,6 +34,15 @@ export const getDashboard = async () => {
       return saleProduct.product.stock > 0 ? "IN_STOCK" : "OUT_OF_STOCK";
     }),
   }));
+  const totalSellingproducts = sales.reduce((acc, item) => {
+    return (
+      acc +
+      item.saleProcucts.reduce(
+        (saleAcc, saleProduct) => saleAcc + saleProduct.quantity,
+        0,
+      )
+    );
+  }, 0);
   const totalAmount = sales.reduce((acc, sale) => {
     const saleTotal = sale.saleProcucts.reduce(
       (saleAcc, saleProduct) =>
@@ -45,5 +54,6 @@ export const getDashboard = async () => {
   return {
     totalAmount,
     totalBestSellingProduct,
+    totalSellingproducts,
   };
 };
