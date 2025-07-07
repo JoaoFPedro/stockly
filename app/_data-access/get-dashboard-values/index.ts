@@ -15,6 +15,7 @@ export const getDashboard = async () => {
       },
     },
   });
+  const products = await db.product.findMany({});
   // console.log(
   //   "SALESACTION***",
   //   sales.map((salesProduct) =>
@@ -34,15 +35,7 @@ export const getDashboard = async () => {
       return saleProduct.product.stock > 0 ? "IN_STOCK" : "OUT_OF_STOCK";
     }),
   }));
-  const totalSellingproducts = sales.reduce((acc, item) => {
-    return (
-      acc +
-      item.saleProcucts.reduce(
-        (saleAcc, saleProduct) => saleAcc + saleProduct.quantity,
-        0,
-      )
-    );
-  }, 0);
+
   const totalAmount = sales.reduce((acc, sale) => {
     const saleTotal = sale.saleProcucts.reduce(
       (saleAcc, saleProduct) =>
@@ -51,9 +44,24 @@ export const getDashboard = async () => {
     );
     return acc + saleTotal;
   }, 0);
+  const totalSellingProducts = sales.reduce((acc, item) => {
+    return (
+      acc +
+      item.saleProcucts.reduce(
+        (saleAcc, saleProduct) => saleAcc + saleProduct.quantity,
+        0,
+      )
+    );
+  }, 0);
+  const totalStock = products.reduce((acc, item) => acc + item.stock, 0);
+  const totalProducts = products.length;
+  console.log("PRODUCTS*******", products.length);
+
   return {
     totalAmount,
     totalBestSellingProduct,
-    totalSellingproducts,
+    totalSellingProducts,
+    totalStock,
+    totalProducts,
   };
 };

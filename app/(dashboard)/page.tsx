@@ -21,9 +21,9 @@ export default async function Home() {
   const dashboardData = await getDashboard();
   const totalAmount = dashboardData.totalAmount;
   const bestSellingProducts = dashboardData.totalBestSellingProduct;
-  const totalSellingproducts = dashboardData.totalSellingproducts;
-  console.log("BESTSELLINGPRODUCTS****", totalSellingproducts);
-
+  const totalSellingproducts = dashboardData.totalSellingProducts;
+  const totalStock = dashboardData.totalStock;
+  const totalProducts = dashboardData.totalProducts;
   return (
     <div className="w-full space-y-8 p-8">
       <Header>
@@ -52,12 +52,12 @@ export default async function Home() {
           icon={<CircleDollarSign />}
         />
         <SummaryCards
-          totalValues={20.0}
+          totalValues={totalStock}
           title="Total em estoque"
           icon={<BoxIcon />}
         />
         <SummaryCards
-          totalValues={60}
+          totalValues={totalProducts}
           title="Produtos"
           icon={<ShoppingBasket />}
         />
