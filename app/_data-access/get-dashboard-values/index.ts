@@ -53,9 +53,23 @@ export const getDashboard = async () => {
       )
     );
   }, 0);
+  const hoje = new Date().toISOString().slice(0, 10);
+
   const totalStock = products.reduce((acc, item) => acc + item.stock, 0);
   const totalProducts = products.length;
-  console.log("PRODUCTS*******", products.length);
+  const totalAmountDay = sales.reduce((acc, saleProduct) => {
+    const todayDate = saleProduct.date.toISOString().slice(0, 10);
+
+    if (todayDate === hoje) {
+      const saleToday = saleProduct.saleProcucts.reduce(
+        (saleAcc, saleProduct) =>
+          saleAcc + saleProduct.quantity * Number(saleProduct.product.price),
+        0,
+      );
+      return acc + saleToday;
+    }
+    return acc;
+  }, 0);
 
   return {
     totalAmount,
@@ -63,5 +77,6 @@ export const getDashboard = async () => {
     totalSellingProducts,
     totalStock,
     totalProducts,
+    totalAmountDay,
   };
 };

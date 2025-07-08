@@ -24,6 +24,8 @@ export default async function Home() {
   const totalSellingproducts = dashboardData.totalSellingProducts;
   const totalStock = dashboardData.totalStock;
   const totalProducts = dashboardData.totalProducts;
+  const totalSalesAmountDay = dashboardData.totalAmountDay;
+
   return (
     <div className="w-full space-y-8 p-8">
       <Header>
@@ -40,7 +42,7 @@ export default async function Home() {
           icon={<DollarSign />}
         />
         <SummaryCard
-          totalAmount={500}
+          totalAmount={totalSalesAmountDay}
           title="Receita Hoje"
           icon={<DollarSign />}
         />
