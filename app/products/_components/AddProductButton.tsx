@@ -9,7 +9,7 @@ const AddProductButton = () => {
   return (
     <>
       <Button
-        className="hover:bg-ghost bg-green-500"
+        className="hover:bg-ghost bg-green-500 text-white"
         onClick={() => setIsOpen(true)}
       >
         <PlusIcon />
