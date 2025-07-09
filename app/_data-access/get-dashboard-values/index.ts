@@ -71,6 +71,44 @@ export const getDashboard = async () => {
     return acc;
   }, 0);
 
+  const meses = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+
+  // Supondo que você tem um array chamado saleProcucts (ou adapte para o seu array)
+  const salesByMonth: Record<string, number> = {};
+
+  sales.forEach((sale) => {
+    sale.saleProcucts.forEach((item) => {
+      const date = new Date(item.createdAt);
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      const key = `${year}-${month}`;
+      const total = item.quantity * Number(item.unitPrice);
+
+      salesByMonth[key] = (salesByMonth[key] || 0) + total;
+    });
+  });
+
+  const salesByMonthArray = Object.entries(salesByMonth).map(([key, total]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [year, month] = key.split("-");
+    return {
+      month: `${meses[Number(month)]}`,
+      total,
+    };
+  });
   return {
     totalAmount,
     totalBestSellingProduct,
@@ -78,5 +116,6 @@ export const getDashboard = async () => {
     totalStock,
     totalProducts,
     totalAmountDay,
+    salesByMonthArray,
   };
 };

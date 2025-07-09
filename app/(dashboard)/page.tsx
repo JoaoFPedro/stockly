@@ -25,6 +25,7 @@ export default async function Home() {
   const totalStock = dashboardData.totalStock;
   const totalProducts = dashboardData.totalProducts;
   const totalSalesAmountDay = dashboardData.totalAmountDay;
+  const totalByMonth = dashboardData.salesByMonthArray;
 
   return (
     <div className="w-full space-y-8 p-8">
@@ -64,8 +65,10 @@ export default async function Home() {
           icon={<ShoppingBasket />}
         />
       </div>
-      <div className="grid grid-cols-1 gap-6 overflow-hidden md:grid-cols-[4fr_2fr]">
-        <BarChart />
+      <div className="grid h-auto grid-cols-1 gap-6 overflow-hidden md:grid-cols-[2fr_2fr]">
+        <div className="h-[250]">
+          <BarChart salesByMonth={totalByMonth} />
+        </div>
         <BestSellingProducts
           product={bestSellingProducts.map((item) => ({
             name: Array.isArray(item.name) ? item.name[0] : item.name,
