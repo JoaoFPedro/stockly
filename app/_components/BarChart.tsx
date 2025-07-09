@@ -53,7 +53,7 @@ export default function Component({ salesByMonth }: BarChartProps) {
               tickLine={false}
               axisLine={false}
               tickMargin={10}
-              tickFormatter={(value) => `${value}K`}
+              tickFormatter={(value) => `R$${value}`}
             />
             <ChartTooltip
               cursor={false}
